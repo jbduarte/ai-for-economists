@@ -6,77 +6,75 @@
 ## Key Source Materials
 
 ### Primary References
-1. **Boris Cherny** (Creator of Claude Code)
-   - Site: https://howborisusesclaudecode.com
-   - Key topics: parallel execution with worktrees, plan mode, CLAUDE.md best practices, skills/slash commands, subagents, hooks, MCP integrations, verification, custom agents
+
+1. **Boris Cherny** (Creator / Head of Claude Code, Anthropic)
+   - Guide (43 tips): https://howborisusesclaudecode.com
+   - X thread (setup): https://x.com/bcherny/status/2007179832300581177
+   - X thread (team tips): https://x.com/bcherny/status/2017742741636321619
+   - Lenny's Newsletter interview: https://www.lennysnewsletter.com/p/head-of-claude-code-what-happens
+   - Pragmatic Engineer deep dive: https://newsletter.pragmaticengineer.com/p/building-claude-code-with-boris-cherny
+   - Key stats: ships 20-30 PRs/day, runs 5+ parallel sessions, Claude Code = 4% of public GitHub commits
    - Local skill reference: `~/Library/CloudStorage/Dropbox/Claude_skills/boris/SKILL.md`
 
-2. **Alex Imas** (Booth School of Business, University of Chicago)
-   - Behavioral economist using AI extensively in research workflow
-   - Active on X (@aleximas) sharing AI-for-research workflows
-   - Focus: how AI transforms the research production function for economists
+2. **Alex Imas** (Goetz Professor, Chicago Booth — visiting Princeton 2025-26)
+   - Website: https://aleximas.com
+   - X/Twitter: @alexolegimas
+   - Substack ("Ghosts of Electricity"): https://aleximas.substack.com
+   - Key X post ("Claude Code is insane"): https://x.com/alexolegimas/status/2006914766401380703
+   - Paper: "Agentic Interactions" (with Lee & Misra): https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5875162
+   - Paper: "Can a Transformer Learn Economic Relationships?" (with Gupta)
+   - Substack: "What is the impact of AI on productivity?"
+   - Substack: "Who Uses AI (and How)?" (with Shukla)
+   - Key concept: "machine fluency" as new source of inequality
+   - Warning: AI can one-shot papers that look good but are bad — verification critical
 
 3. **Anthropic Official Documentation**
-   - Claude Code docs: https://docs.anthropic.com/en/docs/claude-code
-   - Claude Agent SDK: https://github.com/anthropics/claude-code/tree/main/packages/agent
-   - Custom agents: `.claude/agents/*.md`
-   - Custom skills: `.claude/commands/*.md`
+   - Claude Code overview: https://code.claude.com/docs/en/overview
+   - Skills docs: https://code.claude.com/docs/en/skills
+   - Sub-agents docs: https://code.claude.com/docs/en/sub-agents
+   - Memory (CLAUDE.md): https://code.claude.com/docs/en/memory
+   - Hooks: https://code.claude.com/docs/en/hooks
+   - Common workflows (worktrees): https://code.claude.com/docs/en/common-workflows
+   - Agent teams: https://code.claude.com/docs/en/agent-teams
+   - Plugins: https://code.claude.com/docs/en/plugins
+   - Agent SDK overview: https://platform.claude.com/docs/en/agent-sdk/overview
+   - Agent SDK Python: https://github.com/anthropics/claude-agent-sdk-python
+   - Agent SDK demos: https://github.com/anthropics/claude-agent-sdk-demos
+   - Claude Code repo (75.9k stars): https://github.com/anthropics/claude-code
 
 ### Supplementary References
-4. **Sendhil Mullainathan** — "Machines and Minds" research agenda; AI as co-researcher
-5. **Susan Athey** — ML/AI methods for causal inference; policy evaluation
-6. **Anton Korinek** — "Generative AI for Economic Research" (working paper series)
+4. **Anton Korinek** — "Generative AI for Economic Research" (working paper series)
+5. **Sendhil Mullainathan** — "Machines and Minds" research agenda
+6. **Grant McDermott** — quarto-revealjs-clean theme (economist-built): https://github.com/grantmcdermott/quarto-revealjs-clean
 
 ## Presentation Architecture
 
 ### Format: reveal.js (HTML)
 - File: `slides/index.html`
-- Theme: custom dark theme with Nova SBE branding accents
-- Serves via GitHub Pages or local file
+- Theme: custom dark theme with gradient accents, terminal mockups, card layouts
+- CDN-based — single HTML file works in any browser
+- PDF export: `npx decktape reveal slides/index.html slides.pdf`
+- Alternative: open `slides/index.html?print-pdf` in Chrome → Print
 
-### Slide Outline (45 minutes)
+### Slide Structure (45 minutes)
 
-#### Part 1: The AI Moment (5 min)
-- What frontier models can do today (Claude Opus 4.6)
-- Why economists should care: research + teaching transformation
-- The "compound returns" of investing in AI workflow
+| Part | Topic | Time | Key Content |
+|------|-------|------|-------------|
+| 01 | The AI Moment | 5 min | Capabilities, Imas quote, production function shift, warning |
+| 02 | Claude Code | 10 min | What it is, CLAUDE.md, why git, getting started |
+| 03 | Skills | 10 min | Anatomy, guided build, 30+ real examples |
+| 04 | Agents | 10 min | Skills vs agents, anatomy, subagents, worktrees, swarms |
+| 05 | Putting It Together | 7 min | Stack diagram, research workflow, teaching apps |
+| — | Q&A | 3 min | |
 
-#### Part 2: Claude Code — Your AI Research Partner (10 min)
-- What is Claude Code (CLI tool, agentic, tool-using)
-- Live demo: reading a paper, writing code, analyzing data
-- CLAUDE.md: teaching your AI about your project
-- Why git matters: version control as the foundation
-
-#### Part 3: Skills — Reusable AI Workflows (10 min)
-- What is a skill (slash command)
-- Anatomy of a skill file (frontmatter + instructions)
-- Live example: building a `/lit-review` skill from scratch
-- Real examples from the presenter's toolkit (30+ skills)
-
-#### Part 4: Agents — Autonomous AI Workers (10 min)
-- What is an agent (subagent with specific tools/permissions)
-- Agent SDK architecture
-- Live example: building a data-cleaning agent
-- Swarm of agents: worktree parallelism explained
-- Why git worktrees are crucial for parallel AI work
-
-#### Part 5: Putting It All Together (7 min)
-- The economist's AI stack: Claude Code + skills + agents + MCP
-- Research workflow: from idea to paper with AI augmentation
-- Teaching applications: automated grading, exercise generation
-- Getting started: installation and first steps
-
-#### Q&A (3 min)
-
-## Code Examples to Include
-- Simple skill file (complete, annotated)
-- Simple agent file (complete, annotated)
-- Worktree commands for parallel execution
-- CLAUDE.md template for an economics research project
-- Hook example for auto-formatting
+## Code Examples Included
+- `examples/skills/robustness-check.md` — complete annotated skill
+- `examples/agents/data-validator.md` — complete annotated agent
+- `examples/claude-md-templates/research-project.md` — starter CLAUDE.md template
 
 ## Style Guidelines
 - Use concrete economics examples (IV estimation, DSGE, micro data)
-- Show real terminal output / screenshots where possible
+- Show terminal mockups with realistic commands
 - Keep code examples short and self-contained
 - Emphasize the "why" before the "how"
+- Dark theme with code-focused aesthetics
