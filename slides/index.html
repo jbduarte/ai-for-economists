@@ -824,12 +824,12 @@ they are used in estimation.
     <section class="section-slide">
         <span class="section-number">06</span>
         <h2>Live Demos</h2>
-        <p style="font-size: 0.85em; color: #888; max-width: 60%;">Let's try a few things together.</p>
+        <p style="font-size: 0.85em; color: #888; max-width: 60%;">Watch it happen. Suggest what to try.</p>
     </section>
 
     <section>
-        <h2>Demo 1: Build a Skill <span class="tag live">LIVE</span></h2>
-        <p style="font-size: 0.75em; color: #888;">Open your IDE or terminal. Type <code>claude --dangerously-skip-permissions</code>. Then:</p>
+        <h2>Demo 1: Data &rarr; Analysis &rarr; Table <span class="tag live">LIVE</span></h2>
+        <p style="font-size: 0.7em; color: #888;">Using a panel of GDP data for 5 European countries (2015-2024). One multi-step prompt.</p>
         <div class="terminal">
             <div class="terminal-header">
                 <div class="terminal-dot red"></div>
@@ -838,20 +838,50 @@ they are used in estimation.
                 <span class="terminal-title">Claude Code</span>
             </div>
             <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">Create a skill called /summary-stats that reads</span><br>
-                <span class="cmd">&nbsp; a dataset, computes summary statistics, and</span><br>
-                <span class="cmd">&nbsp; outputs a publication-ready LaTeX table.</span><br><br>
-                <span class="success">&#10003; Skill created</span><br><br>
-                <span class="prompt">></span> <span class="cmd">/summary-stats data/sample.csv</span>
+                <span class="prompt">></span> <span class="cmd">Read data/country_gdp_panel.csv. Then:</span><br>
+                <span class="cmd">&nbsp; 1. Generate summary statistics</span><br>
+                <span class="cmd">&nbsp; 2. Run a regression: gdp_growth on inflation,</span><br>
+                <span class="cmd">&nbsp;&nbsp;&nbsp;&nbsp; unemployment, and trade_openness with</span><br>
+                <span class="cmd">&nbsp;&nbsp;&nbsp;&nbsp; country fixed effects</span><br>
+                <span class="cmd">&nbsp; 3. Create a publication-ready LaTeX table</span><br>
+                <span class="cmd">&nbsp; 4. Write a one-paragraph interpretation</span>
             </div>
         </div>
-        <p style="font-size: 0.7em; color: #888;">
-            Create it &rarr; use it &rarr; iterate. All inside Claude. ~2 minutes.
-        </p>
+        <div class="highlight-box green" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>~1-2 min.</strong> Claude reads the CSV, chooses Python or R, runs the code, produces the table and writes the paragraph. All files saved locally.
+            </p>
+        </div>
     </section>
 
     <section>
-        <h2>Demo 2: Polish a Paragraph <span class="tag live">LIVE</span></h2>
+        <h2>Demo 2: Build a Skill &amp; Use It <span class="tag live">LIVE</span></h2>
+        <p style="font-size: 0.7em; color: #888;">Create a reusable skill, then immediately invoke it.</p>
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="terminal-title">Claude Code</span>
+            </div>
+            <div class="terminal-body">
+                <span class="prompt">></span> <span class="cmd">Create a skill called /country-report that takes</span><br>
+                <span class="cmd">&nbsp; a country name, filters data/country_gdp_panel.csv</span><br>
+                <span class="cmd">&nbsp; to that country, creates a time series chart,</span><br>
+                <span class="cmd">&nbsp; and writes a short macro summary.</span><br><br>
+                <span class="success">&#10003; Skill created</span><br><br>
+                <span class="prompt">></span> <span class="cmd">/country-report Portugal</span>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>~2 min.</strong> Claude writes the skill markdown, saves it, then executes it — chart + summary appear.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Demo 3: Polish a Paragraph <span class="tag live">LIVE</span></h2>
         <div class="terminal">
             <div class="terminal-header">
                 <div class="terminal-dot red"></div>
@@ -867,59 +897,20 @@ they are used in estimation.
                 <span class="cmd">is an important contribution to the literature."</span>
             </div>
         </div>
-        <p style="font-size: 0.75em; margin-top: 0.4em;">Claude will:</p>
-        <ul style="font-size: 0.7em;">
-            <li>Diagnose: vague claims, weasel words, missing magnitudes</li>
+        <p style="font-size: 0.7em; margin-top: 0.4em;">Claude will:</p>
+        <ul style="font-size: 0.65em;">
+            <li>Diagnose each sentence: vague claims, weasel words, missing magnitudes</li>
             <li>Rewrite with precision, specificity, and proper academic tone</li>
-            <li>Context-aware — locates the passage within your full paper</li>
         </ul>
-    </section>
-
-    <section>
-        <h2>Demo 3: Literature Review <span class="tag live">LIVE</span></h2>
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">Claude Code</span>
-            </div>
-            <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">/lit-review fiscal multipliers in open economies</span><br><br>
-                <span class="output">Searching Google Scholar, NBER, CEPR, SSRN...</span><br>
-                <span class="output">Found 23 relevant papers</span><br><br>
-                <span class="success">&#10003; Review saved: notes/lit-review-fiscal.md</span><br>
-                <span class="output">Seminal: 8 | Recent: 12 | Working papers: 3</span><br>
-                <span class="output">Each with: finding, method, data, citation</span>
-            </div>
-        </div>
-        <p style="font-size: 0.7em; color: #888; margin-top: 0.4em;">
-            Uses Google Scholar MCP. Outputs structured markdown — ready for your LaTeX intro.
-        </p>
-    </section>
-
-    <section>
-        <h2>Demo 4: LaTeX Tables <span class="tag live">LIVE</span></h2>
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">Claude Code</span>
-            </div>
-            <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">/latex-tables</span><br>
-                <span class="cmd">Generate a regression table with 3 panels:</span><br>
-                <span class="cmd">OLS, reduced form, 2SLS. AER formatting.</span><br>
-                <span class="cmd">Data in analysis/results.csv</span><br><br>
-                <span class="success">&#10003; tables/main_results.tex</span><br>
-                <span class="output">3 panels | 6 columns | booktabs | Stars at 1/5/10%</span>
-            </div>
+        <div class="highlight-box" style="margin-top: 0.2em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>~30 sec.</strong> The fastest demo. Great for showing the writing quality.
+            </p>
         </div>
     </section>
 
     <section>
-        <h2>Demo 5: Build an Agent <span class="tag live">LIVE</span></h2>
+        <h2>Demo 4: Build an Agent <span class="tag live">LIVE</span></h2>
         <div class="terminal">
             <div class="terminal-header">
                 <div class="terminal-dot red"></div>
@@ -936,9 +927,42 @@ they are used in estimation.
                 <span class="success">&#10003; Agent created: .claude/agents/code-reviewer.md</span>
             </div>
         </div>
-        <p style="font-size: 0.7em; color: #888; margin-top: 0.4em;">
-            Claude creates the agent file with the right tools and restrictions. You just describe what you want.
-        </p>
+        <div class="highlight-box" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>~1 min.</strong> Claude creates the agent file with restricted tools and a specific persona. Then we can inspect the file together.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>What Else? <span class="tag purple">audience picks</span></h2>
+        <p style="font-size: 0.8em;">Suggest something. I'll ask Claude to do it live.</p>
+        <div class="card-grid three-col" style="margin-top: 0.5em;">
+            <div class="card">
+                <h4>Ideas</h4>
+                <p>
+                    "Generate a problem set"<br>
+                    "Create a Beamer presentation"<br>
+                    "Write a referee response"
+                </p>
+            </div>
+            <div class="card accent2">
+                <h4>Go wild</h4>
+                <p>
+                    "Build an app that..."<br>
+                    "Scrape data from..."<br>
+                    "Analyze this paper..."
+                </p>
+            </div>
+            <div class="card accent3">
+                <h4>Meta</h4>
+                <p>
+                    "Build a skill that builds skills"<br>
+                    "Create an agent that checks other agents"<br>
+                    "Make these slides better"
+                </p>
+            </div>
+        </div>
     </section>
 </section>
 
@@ -962,40 +986,6 @@ they are used in estimation.
         </div>
     </section>
 
-    <section>
-        <h2>Getting Started — 3 Steps</h2>
-        <div style="font-size: 0.8em;">
-            <div class="card-grid three-col" style="margin-top: 0.3em;">
-                <div class="card accent3">
-                    <h4>1. Install</h4>
-                    <p style="font-size: 1em;"><code>npm install -g @anthropic-ai/claude-code</code></p>
-                </div>
-                <div class="card accent2">
-                    <h4>2. Open your IDE or Terminal</h4>
-                    <p style="font-size: 1em;">VS Code, PyCharm, or any terminal.<br>Navigate to your project folder.</p>
-                </div>
-                <div class="card accent4">
-                    <h4>3. Type one command</h4>
-                    <p style="font-size: 1em;"><code>claude --dangerously-skip-permissions</code></p>
-                </div>
-            </div>
-        </div>
-        <div class="terminal" style="margin-top: 0.5em;">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">Claude Code</span>
-            </div>
-            <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">Set up this project: initialize git, create a</span><br>
-                <span class="cmd">&nbsp; CLAUDE.md describing my research, and build me</span><br>
-                <span class="cmd">&nbsp; a /summary-stats skill for my data analysis.</span><br><br>
-                <span class="success">Claude does all of it — git, CLAUDE.md, skill — automatically.</span>
-            </div>
-        </div>
-    </section>
-
     <section data-background-gradient="linear-gradient(135deg, #0a0a1a, #1a1030)">
         <div style="text-align: center;">
             <h2 style="font-size: 2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
@@ -1004,9 +994,10 @@ they are used in estimation.
             <p style="font-size: 0.85em; color: #888; margin-top: 0.8em;">
                 Joao B. Duarte &nbsp;|&nbsp; Nova SBE
             </p>
-            <div style="margin-top: 1.5em; font-size: 0.7em; color: #666;">
-                <p><code>npm install -g @anthropic-ai/claude-code</code></p>
-                <p style="margin-top: 0.4em;">Repo: <code>github.com/jbduarte/ai-for-economists</code></p>
+            <div style="margin-top: 1.5em;">
+                <p style="font-size: 0.7em; color: #666;">Requires Claude Pro ($20/mo) or Max ($100/mo)</p>
+                <p style="font-size: 0.65em; color: #555; margin-top: 0.3em;"><code>npm install -g @anthropic-ai/claude-code</code></p>
+                <p style="font-size: 0.65em; color: #555; margin-top: 0.2em;">Repo with examples: <code>github.com/jbduarte/ai-for-economists</code></p>
             </div>
         </div>
     </section>
