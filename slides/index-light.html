@@ -5,27 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI for Economists — Claude Code Workshop</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css" id="theme" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/github.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --r-background-color: #0e1016;
+            --r-background-color: #fafafa;
             --r-main-font: 'Inter', -apple-system, sans-serif;
             --r-main-font-size: 32px;
             --r-heading-font: 'Inter', -apple-system, sans-serif;
             --r-code-font: 'JetBrains Mono', monospace;
-            --r-heading-color: #e8e8f0;
-            --r-main-color: #b8b8c8;
-            --r-link-color: #8ea8d8;
-            --accent: #8ea8d8;
-            --accent2: #b09dd4;
-            --accent3: #7ec8a0;
-            --accent4: #d4a574;
-            --accent5: #d48a9e;
-            --surface: #151820;
-            --surface2: #1c1f2a;
-            --border: #262a38;
+            --r-heading-color: #1a1a2e;
+            --r-main-color: #3a3a4a;
+            --r-link-color: #4a6fa5;
+            --accent: #4a6fa5;
+            --accent2: #7b68a8;
+            --accent3: #3a8a5c;
+            --accent4: #a07040;
+            --accent5: #a05068;
+            --surface: #f0f0f4;
+            --surface2: #e6e6ee;
+            --border: #d0d0dc;
         }
 
         .reveal { font-weight: 300; }
@@ -33,13 +33,13 @@
             font-weight: 600; letter-spacing: -0.02em; text-transform: none;
         }
         .reveal h1 { font-size: 2.4em; line-height: 1.1; }
-        .reveal h2 { font-size: 1.6em; line-height: 1.2; color: #e0e0ec; }
+        .reveal h2 { font-size: 1.6em; line-height: 1.2; color: #1a1a2e; }
         .reveal h3 { font-size: 1.1em; line-height: 1.3; color: var(--accent); font-weight: 500; }
         .reveal p, .reveal li { line-height: 1.6; }
         .reveal ul { list-style: none; padding-left: 0; }
         .reveal ul li { padding-left: 1.2em; position: relative; margin-bottom: 0.4em; }
         .reveal ul li::before {
-            content: '\2013'; position: absolute; left: 0; color: #667; font-weight: 400;
+            content: '\2013'; position: absolute; left: 0; color: #999; font-weight: 400;
         }
         .reveal code {
             font-family: var(--r-code-font); font-size: 0.85em;
@@ -58,11 +58,11 @@
         /* Title */
         .title-slide h1 {
             font-size: 2.8em;
-            color: #e8e8f0;
+            color: #1a1a2e;
             margin-bottom: 0.3em;
         }
         .title-slide .subtitle { font-size: 1.1em; color: var(--accent); font-weight: 400; margin-bottom: 0.6em; }
-        .title-slide .author { font-size: 0.85em; color: #778; font-weight: 300; }
+        .title-slide .author { font-size: 0.85em; color: #888; font-weight: 300; }
 
         /* Section divider */
         .section-slide { text-align: left !important; }
@@ -143,7 +143,7 @@
         .tag.purple { background: rgba(176,157,212,0.15); color: var(--accent2); }
         .tag.orange { background: rgba(212,165,116,0.15); color: var(--accent4); }
         .tag.pink { background: rgba(212,138,158,0.15); color: var(--accent5); }
-        .tag.live { background: rgba(200,80,80,0.2); color: #d48a8a; }
+        .tag.live { background: rgba(200,60,60,0.15); color: #b04040; }
 
         .reveal .slides { text-align: left; }
         .reveal .slides section { text-align: left; }
@@ -157,16 +157,16 @@
             background: var(--surface2); padding: 0.4em 0.7em; display: flex; gap: 0.3em; align-items: center;
         }
         .terminal-dot { width: 8px; height: 8px; border-radius: 50%; }
-        .terminal-dot.red { background: #a06060; }
-        .terminal-dot.yellow { background: #a09060; }
-        .terminal-dot.green { background: #60a070; }
-        .terminal-title { color: #556; font-size: 0.85em; margin-left: 0.5em; font-family: var(--r-code-font); }
+        .terminal-dot.red { background: #e06060; }
+        .terminal-dot.yellow { background: #e0b040; }
+        .terminal-dot.green { background: #50b060; }
+        .terminal-title { color: #888; font-size: 0.85em; margin-left: 0.5em; font-family: var(--r-code-font); }
         .terminal-body {
-            padding: 0.8em; font-family: var(--r-code-font); line-height: 1.5; color: #b8b8c8;
+            padding: 0.8em; font-family: var(--r-code-font); line-height: 1.5; color: #2a2a3a;
         }
         .terminal-body .prompt { color: var(--accent3); }
-        .terminal-body .cmd { color: #dddde8; }
-        .terminal-body .output { color: #778; }
+        .terminal-body .cmd { color: #1a1a2e; }
+        .terminal-body .output { color: #888; }
         .terminal-body .highlight { color: var(--accent); }
         .terminal-body .success { color: var(--accent3); }
         .terminal-body .warn { color: var(--accent4); }
@@ -204,7 +204,7 @@
         /* Footer */
         .slide-footer {
             position: fixed; bottom: 1em; left: 1.5em;
-            font-size: 0.45em; color: #334; font-family: var(--r-code-font);
+            font-size: 0.45em; color: #aaa; font-family: var(--r-code-font);
         }
     </style>
 </head>
@@ -215,13 +215,34 @@
 <!-- ============================================ -->
 <!-- TITLE -->
 <!-- ============================================ -->
-<section data-background-gradient="linear-gradient(135deg, #0e1016, #141620)">
+<section data-background-gradient="linear-gradient(135deg, #f0f0f8, #e8e8f4)">
     <div class="title-slide" style="text-align: center;">
         <h1>AI for Economists</h1>
         <div class="subtitle">Claude Code, Skills, Agents &amp; Worktrees</div>
         <div class="author">
             Joao B. Duarte &nbsp;|&nbsp; Nova SBE &nbsp;|&nbsp; March 2026
         </div>
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- TABLE OF CONTENTS -->
+<!-- ============================================ -->
+<section>
+    <h2>Contents</h2>
+    <div style="font-size: 0.8em; line-height: 2.2;">
+        <table style="border: none; background: transparent; font-size: 1em;">
+            <tbody>
+                <tr><td style="border: none; padding: 0.2em 0.8em; color: var(--accent); font-weight: 600; width: 2em;">01</td><td style="border: none; padding: 0.2em;"><a href="#/sec-01" style="color: var(--r-main-color); text-decoration: none;">Claude Code</a> <span style="color: #bbb;">— What it is and how it works</span></td></tr>
+                <tr><td style="border: none; padding: 0.2em 0.8em; color: var(--accent); font-weight: 600;">02</td><td style="border: none; padding: 0.2em;"><a href="#/sec-02" style="color: var(--r-main-color); text-decoration: none;">Memory &amp; Plan Mode</a> <span style="color: #bbb;">— How Claude remembers and thinks</span></td></tr>
+                <tr><td style="border: none; padding: 0.2em 0.8em; color: var(--accent); font-weight: 600;">03</td><td style="border: none; padding: 0.2em;"><a href="#/sec-03" style="color: var(--r-main-color); text-decoration: none;">Skills</a> <span style="color: #bbb;">— Reusable AI workflows</span></td></tr>
+                <tr><td style="border: none; padding: 0.2em 0.8em; color: var(--accent); font-weight: 600;">04</td><td style="border: none; padding: 0.2em;"><a href="#/sec-04" style="color: var(--r-main-color); text-decoration: none;">Agents</a> <span style="color: #bbb;">— Autonomous workers and teams</span></td></tr>
+                <tr><td style="border: none; padding: 0.2em 0.8em; color: var(--accent); font-weight: 600;">05</td><td style="border: none; padding: 0.2em;"><a href="#/sec-05" style="color: var(--r-main-color); text-decoration: none;">Worktrees</a> <span style="color: #bbb;">— Safe parallel execution</span></td></tr>
+                <tr><td style="border: none; padding: 0.2em 0.8em; color: var(--accent); font-weight: 600;">06</td><td style="border: none; padding: 0.2em;"><a href="#/sec-06" style="color: var(--r-main-color); text-decoration: none;">Built-in Power Tools</a> <span style="color: #bbb;">— Native commands and plugins</span></td></tr>
+                <tr><td style="border: none; padding: 0.2em 0.8em; color: var(--accent); font-weight: 600;">07</td><td style="border: none; padding: 0.2em;"><a href="#/sec-07" style="color: var(--r-main-color); text-decoration: none;">My Workflow</a> <span style="color: #bbb;">— 30+ skills across 7 categories</span></td></tr>
+                <tr><td style="border: none; padding: 0.2em 0.8em; color: var(--accent); font-weight: 600;">08</td><td style="border: none; padding: 0.2em;"><a href="#/sec-08" style="color: var(--r-main-color); text-decoration: none;">Live Demos</a> <span style="color: #bbb;">— Watch it happen</span></td></tr>
+            </tbody>
+        </table>
     </div>
 </section>
 
@@ -268,7 +289,7 @@
 
 <!-- === 1. CLAUDE CODE === -->
 <section>
-    <section class="section-slide">
+    <section class="section-slide" id="sec-01">
         <span class="section-number">01</span>
         <h2>Claude Code</h2>
         <p style="font-size: 0.85em; color: #888; max-width: 60%;">What it is and how it works.</p>
@@ -389,7 +410,7 @@
 
 <!-- === 2. MEMORY & PLAN MODE === -->
 <section>
-    <section class="section-slide">
+    <section class="section-slide" id="sec-02">
         <span class="section-number">02</span>
         <h2>Memory &amp; Plan Mode</h2>
         <p style="font-size: 0.85em; color: #888; max-width: 60%;">How Claude remembers your project and thinks before it acts.</p>
@@ -608,7 +629,7 @@
 
 <!-- === 3. SKILLS === -->
 <section>
-    <section class="section-slide">
+    <section class="section-slide" id="sec-03">
         <span class="section-number">03</span>
         <h2>Skills</h2>
         <p style="font-size: 0.85em; color: #888; max-width: 60%;">Reusable AI workflows you invoke with a slash command.</p>
@@ -745,7 +766,7 @@ Display a preview in the terminal.
 
 <!-- === 4. AGENTS === -->
 <section>
-    <section class="section-slide">
+    <section class="section-slide" id="sec-04">
         <span class="section-number">04</span>
         <h2>Agents</h2>
         <p style="font-size: 0.85em; color: #888; max-width: 60%;">Autonomous workers with specific roles and restricted tools.</p>
@@ -929,7 +950,7 @@ they are used in estimation.
 
 <!-- === 5. WORKTREES === -->
 <section>
-    <section class="section-slide">
+    <section class="section-slide" id="sec-05">
         <span class="section-number">05</span>
         <h2>Worktrees</h2>
         <p style="font-size: 0.85em; color: #888; max-width: 60%;">The key to running multiple agents safely in parallel.</p>
@@ -988,7 +1009,7 @@ they are used in estimation.
 
 <!-- === 6. BUILT-IN POWER TOOLS === -->
 <section>
-    <section class="section-slide">
+    <section class="section-slide" id="sec-06">
         <span class="section-number">06</span>
         <h2>Built-in Power Tools</h2>
         <p style="font-size: 0.85em; color: #888; max-width: 60%;">Native commands that ship with Claude Code. No setup needed.</p>
@@ -1228,7 +1249,7 @@ they are used in estimation.
 <!-- PART II: THE WORKFLOW MAP (5 min) -->
 <!-- ============================================ -->
 <section>
-    <section class="section-slide">
+    <section class="section-slide" id="sec-07">
         <span class="section-number">07</span>
         <h2>My Workflow</h2>
         <p style="font-size: 0.85em; color: #888; max-width: 60%;">30+ skills and agents across 7 categories.</p>
@@ -1522,7 +1543,7 @@ they are used in estimation.
 <!-- PART III: LIVE DEMOS (15-20 min) -->
 <!-- ============================================ -->
 <section>
-    <section class="section-slide">
+    <section class="section-slide" id="sec-08">
         <span class="section-number">08</span>
         <h2>Live Demos</h2>
         <p style="font-size: 0.85em; color: #888; max-width: 60%;">Watch it happen. Suggest what to try.</p>
@@ -1725,9 +1746,9 @@ they are used in estimation.
         </div>
     </section>
 
-    <section data-background-gradient="linear-gradient(135deg, #0e1016, #141620)">
+    <section data-background-gradient="linear-gradient(135deg, #f0f0f8, #e8e8f4)">
         <div style="text-align: center;">
-            <h2 style="font-size: 2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            <h2 style="font-size: 2em; color: var(--accent);">
                 Questions?
             </h2>
             <p style="font-size: 0.85em; color: #888; margin-top: 0.8em;">
