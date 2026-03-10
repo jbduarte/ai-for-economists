@@ -247,15 +247,15 @@
     <section>
         <h2>What is Claude Code?</h2>
         <div class="flow-diagram">
-            <div class="flow-box">You (terminal)</div>
+            <div class="flow-box">You<br><small style="color: #888;">IDE or terminal</small></div>
             <span style="color: var(--accent);">&rarr;</span>
             <div class="flow-box active">Claude Code<br><small style="color: #888;">plans, reads, writes, executes</small></div>
             <span style="color: var(--accent);">&rarr;</span>
             <div class="flow-box">Files, Code, Web, APIs</div>
         </div>
         <ul style="font-size: 0.8em;">
-            <li>An <strong>agentic CLI</strong> — AI that can read files, write code, search, and execute</li>
-            <li>Works directly in your project directory — sees everything</li>
+            <li>An <strong>agentic AI</strong> that can read files, write code, search, and execute</li>
+            <li>Open it in <strong>VS Code, PyCharm, or any terminal</strong> — one command to start</li>
             <li>You provide <strong>strategy and judgment</strong>; it handles execution</li>
             <li>Everything local, reproducible, tracked by git</li>
         </ul>
@@ -264,10 +264,10 @@
                 <div class="terminal-dot red"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — ~/my-research-project</span>
+                <span class="terminal-title">VS Code / PyCharm / Terminal</span>
             </div>
             <div class="terminal-body">
-                <span class="prompt">$</span> <span class="cmd">claude</span><br>
+                <span class="prompt">$</span> <span class="cmd">claude --dangerously-skip-permissions</span><br>
                 <span class="prompt">></span> <span class="cmd">Read my IV regression in analysis.do, add weak</span><br>
                 <span class="cmd">&nbsp; instrument diagnostics, and generate a LaTeX table</span>
             </div>
@@ -393,27 +393,30 @@ Display a preview in the terminal.
 
     <section>
         <h2>How to Build a Skill</h2>
+        <p style="font-size: 0.75em; color: #888;">Just ask Claude. It creates the file for you.</p>
         <div class="terminal">
             <div class="terminal-header">
                 <div class="terminal-dot red"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — two ways</span>
+                <span class="terminal-title">Claude Code</span>
             </div>
             <div class="terminal-body">
-                <span class="output"># Option 1: Ask Claude to build it for you</span><br>
                 <span class="prompt">></span> <span class="cmd">Create a skill called /robustness that runs</span><br>
-                <span class="cmd">&nbsp; all IV robustness checks. Save it to</span><br>
-                <span class="cmd">&nbsp; .claude/commands/robustness.md</span><br><br>
-                <span class="output"># Option 2: Write the markdown yourself</span><br>
-                <span class="prompt">$</span> <span class="cmd">vim .claude/commands/robustness.md</span><br><br>
-                <span class="output"># Either way, use it immediately:</span><br>
-                <span class="prompt">></span> <span class="cmd">/robustness analysis/main_iv.do</span>
+                <span class="cmd">&nbsp; all IV robustness checks for my regressions.</span><br><br>
+                <span class="success">&#10003; Skill created: .claude/commands/robustness.md</span><br><br>
+                <span class="output"># Use it immediately</span><br>
+                <span class="prompt">></span> <span class="cmd">/robustness analysis/main_iv.do</span><br><br>
+                <span class="output"># Iterate — the skill evolves</span><br>
+                <span class="prompt">></span> <span class="cmd">Update the /robustness skill to also check</span><br>
+                <span class="cmd">&nbsp; for weak instruments and add placebo tests</span>
             </div>
         </div>
-        <p style="font-size: 0.7em; color: #888; margin-top: 0.4em;">
-            Then iterate: <em>"make it also check for weak instruments"</em> — the skill evolves.
-        </p>
+        <div class="highlight-box green" style="margin-top: 0.3em;">
+            <p style="font-size: 0.7em; margin: 0;">
+                You never need to write markdown manually — <strong>Claude builds skills for you</strong> and refines them as you iterate.
+            </p>
+        </div>
     </section>
 </section>
 
@@ -568,20 +571,22 @@ they are used in estimation.
 
     <section>
         <h2>Worktrees in Practice</h2>
+        <p style="font-size: 0.75em; color: #888;">You can ask Claude to do this for you, or use the <code>/worktree-planner</code> skill to decompose a big task automatically.</p>
         <div class="terminal">
             <div class="terminal-header">
                 <div class="terminal-dot red"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — running 3 agents in parallel</span>
+                <span class="terminal-title">Claude Code</span>
             </div>
             <div class="terminal-body">
-                <span class="output"># Each gets its own worktree — no conflicts</span><br>
-                <span class="prompt">$</span> <span class="cmd">claude --worktree robustness "Run all IV robustness checks"</span><br>
-                <span class="prompt">$</span> <span class="cmd">claude --worktree lit-review "Update the lit review section"</span><br>
-                <span class="prompt">$</span> <span class="cmd">claude --worktree data-clean "Clean the new Q4 data"</span><br><br>
-                <span class="output"># Each works independently — merge back when done</span><br>
-                <span class="prompt">$</span> <span class="cmd">git merge robustness lit-review data-clean</span>
+                <span class="prompt">></span> <span class="cmd">I need to run robustness checks, update the</span><br>
+                <span class="cmd">&nbsp; lit review, and clean the new Q4 data.</span><br>
+                <span class="cmd">&nbsp; Do all three in parallel using worktrees.</span><br><br>
+                <span class="success">&#10003; Launching 3 parallel agents...</span><br>
+                <span class="output">&nbsp; Worktree 1: robustness checks</span><br>
+                <span class="output">&nbsp; Worktree 2: literature review</span><br>
+                <span class="output">&nbsp; Worktree 3: data cleaning</span>
             </div>
         </div>
         <blockquote style="margin-top: 0.5em;">
@@ -824,25 +829,24 @@ they are used in estimation.
 
     <section>
         <h2>Demo 1: Build a Skill <span class="tag live">LIVE</span></h2>
+        <p style="font-size: 0.75em; color: #888;">Open your IDE or terminal. Type <code>claude --dangerously-skip-permissions</code>. Then:</p>
         <div class="terminal">
             <div class="terminal-header">
                 <div class="terminal-dot red"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — creating a skill from scratch</span>
+                <span class="terminal-title">Claude Code</span>
             </div>
             <div class="terminal-body">
                 <span class="prompt">></span> <span class="cmd">Create a skill called /summary-stats that reads</span><br>
                 <span class="cmd">&nbsp; a dataset, computes summary statistics, and</span><br>
-                <span class="cmd">&nbsp; outputs a publication-ready LaTeX table.</span><br>
-                <span class="cmd">&nbsp; Save to .claude/commands/summary-stats.md</span><br><br>
+                <span class="cmd">&nbsp; outputs a publication-ready LaTeX table.</span><br><br>
                 <span class="success">&#10003; Skill created</span><br><br>
-                <span class="output"># Use it immediately</span><br>
                 <span class="prompt">></span> <span class="cmd">/summary-stats data/sample.csv</span>
             </div>
         </div>
         <p style="font-size: 0.7em; color: #888;">
-            Create it &rarr; use it &rarr; iterate. Takes about 2 minutes.
+            Create it &rarr; use it &rarr; iterate. All inside Claude. ~2 minutes.
         </p>
     </section>
 
@@ -853,7 +857,7 @@ they are used in estimation.
                 <div class="terminal-dot red"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — academic writing</span>
+                <span class="terminal-title">Claude Code</span>
             </div>
             <div class="terminal-body">
                 <span class="prompt">></span> <span class="cmd">/polish</span><br>
@@ -878,7 +882,7 @@ they are used in estimation.
                 <div class="terminal-dot red"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — literature search</span>
+                <span class="terminal-title">Claude Code</span>
             </div>
             <div class="terminal-body">
                 <span class="prompt">></span> <span class="cmd">/lit-review fiscal multipliers in open economies</span><br><br>
@@ -901,7 +905,7 @@ they are used in estimation.
                 <div class="terminal-dot red"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — generating tables</span>
+                <span class="terminal-title">Claude Code</span>
             </div>
             <div class="terminal-body">
                 <span class="prompt">></span> <span class="cmd">/latex-tables</span><br>
@@ -921,20 +925,19 @@ they are used in estimation.
                 <div class="terminal-dot red"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — creating a custom agent</span>
+                <span class="terminal-title">Claude Code</span>
             </div>
             <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">Create an agent called "code-reviewer" in</span><br>
-                <span class="cmd">&nbsp; .claude/agents/code-reviewer.md that reviews</span><br>
-                <span class="cmd">&nbsp; Stata and R code for common econometric mistakes:</span><br>
-                <span class="cmd">&nbsp; wrong clustering, missing FE, log of negatives,</span><br>
-                <span class="cmd">&nbsp; unbalanced panels treated as balanced.</span><br>
-                <span class="cmd">&nbsp; Restrict to Read and Grep tools only.</span><br><br>
-                <span class="success">&#10003; .claude/agents/code-reviewer.md created</span>
+                <span class="prompt">></span> <span class="cmd">Create an agent that reviews Stata and R code</span><br>
+                <span class="cmd">&nbsp; for common econometric mistakes: wrong clustering,</span><br>
+                <span class="cmd">&nbsp; missing FE, log of negatives, unbalanced panels</span><br>
+                <span class="cmd">&nbsp; treated as balanced. It should only be able to</span><br>
+                <span class="cmd">&nbsp; read files, not edit them.</span><br><br>
+                <span class="success">&#10003; Agent created: .claude/agents/code-reviewer.md</span>
             </div>
         </div>
         <p style="font-size: 0.7em; color: #888; margin-top: 0.4em;">
-            Key difference from skills: agents have <strong>restricted tools</strong> and a <strong>persistent persona</strong>.
+            Claude creates the agent file with the right tools and restrictions. You just describe what you want.
         </p>
     </section>
 </section>
@@ -960,25 +963,35 @@ they are used in estimation.
     </section>
 
     <section>
-        <h2>Getting Started — 5 Minutes</h2>
-        <div class="terminal">
+        <h2>Getting Started — 3 Steps</h2>
+        <div style="font-size: 0.8em;">
+            <div class="card-grid three-col" style="margin-top: 0.3em;">
+                <div class="card accent3">
+                    <h4>1. Install</h4>
+                    <p style="font-size: 1em;"><code>npm install -g @anthropic-ai/claude-code</code></p>
+                </div>
+                <div class="card accent2">
+                    <h4>2. Open your IDE or Terminal</h4>
+                    <p style="font-size: 1em;">VS Code, PyCharm, or any terminal.<br>Navigate to your project folder.</p>
+                </div>
+                <div class="card accent4">
+                    <h4>3. Type one command</h4>
+                    <p style="font-size: 1em;"><code>claude --dangerously-skip-permissions</code></p>
+                </div>
+            </div>
+        </div>
+        <div class="terminal" style="margin-top: 0.5em;">
             <div class="terminal-header">
                 <div class="terminal-dot red"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — setup</span>
+                <span class="terminal-title">Claude Code</span>
             </div>
             <div class="terminal-body">
-                <span class="output"># 1. Install</span><br>
-                <span class="prompt">$</span> <span class="cmd">npm install -g @anthropic-ai/claude-code</span><br><br>
-                <span class="output"># 2. Go to your project</span><br>
-                <span class="prompt">$</span> <span class="cmd">cd ~/research/my-project</span><br><br>
-                <span class="output"># 3. Init git (if needed)</span><br>
-                <span class="prompt">$</span> <span class="cmd">git init && git add -A && git commit -m "initial"</span><br><br>
-                <span class="output"># 4. Let Claude create your CLAUDE.md</span><br>
-                <span class="prompt">$</span> <span class="cmd">claude "Create a CLAUDE.md for this project"</span><br><br>
-                <span class="output"># 5. Build your first skill</span><br>
-                <span class="prompt">$</span> <span class="cmd">claude "Create a skill for my most repeated task"</span>
+                <span class="prompt">></span> <span class="cmd">Set up this project: initialize git, create a</span><br>
+                <span class="cmd">&nbsp; CLAUDE.md describing my research, and build me</span><br>
+                <span class="cmd">&nbsp; a /summary-stats skill for my data analysis.</span><br><br>
+                <span class="success">Claude does all of it — git, CLAUDE.md, skill — automatically.</span>
             </div>
         </div>
     </section>
