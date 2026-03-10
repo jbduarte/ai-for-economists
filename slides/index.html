@@ -80,7 +80,6 @@
         /* Cards */
         .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8em; margin-top: 0.6em; }
         .card-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
-        .card-grid.four-col { grid-template-columns: 1fr 1fr 1fr 1fr; }
         .card {
             background: var(--surface); border: 1px solid var(--border);
             border-radius: 8px; padding: 0.8em; text-align: left;
@@ -90,6 +89,14 @@
             font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
         }
         .card p { font-size: 0.65em; margin: 0; color: var(--r-main-color); }
+        .card.accent2 { border-color: rgba(192,132,252,0.4); }
+        .card.accent2 h4 { color: var(--accent2); }
+        .card.accent3 { border-color: rgba(52,211,153,0.4); }
+        .card.accent3 h4 { color: var(--accent3); }
+        .card.accent4 { border-color: rgba(251,146,60,0.4); }
+        .card.accent4 h4 { color: var(--accent4); }
+        .card.accent5 { border-color: rgba(255,107,157,0.4); }
+        .card.accent5 h4 { color: var(--accent5); }
 
         /* Table */
         .reveal table {
@@ -171,14 +178,35 @@
         .terminal-body .success { color: var(--accent3); }
         .terminal-body .warn { color: var(--accent4); }
 
-        /* Try-it banner */
-        .try-it {
-            background: linear-gradient(135deg, rgba(255,60,60,0.15), rgba(255,107,157,0.1));
-            border: 1px solid rgba(255,60,60,0.3); border-radius: 8px;
-            padding: 0.5em 0.8em; font-size: 0.7em; text-align: center;
-            margin-top: 0.6em;
+        /* Workflow map */
+        .workflow-map {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 0.4em 1em;
+            font-size: 0.6em;
+            margin-top: 0.5em;
         }
-        .try-it strong { color: #ff6b6b; }
+        .wf-label {
+            text-align: right;
+            font-weight: 600;
+            padding-top: 0.4em;
+            white-space: nowrap;
+        }
+        .wf-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3em;
+            align-items: flex-start;
+        }
+        .wf-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.3em 0.6em;
+            font-family: var(--r-code-font);
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
 
         /* Footer */
         .slide-footer {
@@ -197,83 +225,60 @@
 <section data-background-gradient="linear-gradient(135deg, #0a0a1a, #1a1030)">
     <div class="title-slide" style="text-align: center;">
         <h1>AI for Economists</h1>
-        <div class="subtitle">A Hands-On Workshop with Claude Code</div>
+        <div class="subtitle">Claude Code, Skills, Agents &amp; Worktrees</div>
         <div class="author">
             Joao B. Duarte &nbsp;|&nbsp; Nova SBE &nbsp;|&nbsp; March 2026
-        </div>
-        <div style="margin-top: 1.5em; font-size: 0.65em; color: #666;">
-            Install now: <code style="color: var(--accent3);">npm install -g @anthropic-ai/claude-code</code>
         </div>
     </div>
 </section>
 
 <!-- ============================================ -->
-<!-- INTERACTIVE OPENER -->
+<!-- PART I: GENERAL PRINCIPLES (15-20 min) -->
 <!-- ============================================ -->
+
+<!-- === 1. CLAUDE CODE === -->
 <section>
+    <section class="section-slide">
+        <span class="section-number">01</span>
+        <h2>Claude Code</h2>
+        <p style="font-size: 0.85em; color: #888; max-width: 60%;">What it is and how it works.</p>
+    </section>
+
     <section>
-        <h2>Let's Start With a Demo <span class="tag live">LIVE</span></h2>
-        <div class="terminal">
+        <h2>What is Claude Code?</h2>
+        <div class="flow-diagram">
+            <div class="flow-box">You (terminal)</div>
+            <span style="color: var(--accent);">&rarr;</span>
+            <div class="flow-box active">Claude Code<br><small style="color: #888;">plans, reads, writes, executes</small></div>
+            <span style="color: var(--accent);">&rarr;</span>
+            <div class="flow-box">Files, Code, Web, APIs</div>
+        </div>
+        <ul style="font-size: 0.8em;">
+            <li>An <strong>agentic CLI</strong> — AI that can read files, write code, search, and execute</li>
+            <li>Works directly in your project directory — sees everything</li>
+            <li>You provide <strong>strategy and judgment</strong>; it handles execution</li>
+            <li>Everything local, reproducible, tracked by git</li>
+        </ul>
+        <div class="terminal" style="margin-top: 0.4em;">
             <div class="terminal-header">
                 <div class="terminal-dot red"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — live demo</span>
+                <span class="terminal-title">zsh — ~/my-research-project</span>
             </div>
             <div class="terminal-body">
                 <span class="prompt">$</span> <span class="cmd">claude</span><br>
-                <span class="prompt">></span> <span class="cmd">I have a CSV with country-level GDP data.</span><br>
-                <span class="cmd">&nbsp; Clean it, run summary statistics, and create</span><br>
-                <span class="cmd">&nbsp; a publication-quality LaTeX table.</span>
+                <span class="prompt">></span> <span class="cmd">Read my IV regression in analysis.do, add weak</span><br>
+                <span class="cmd">&nbsp; instrument diagnostics, and generate a LaTeX table</span>
             </div>
         </div>
-        <div class="highlight-box green">
-            <p style="font-size: 0.75em; margin: 0;">
-                Watch Claude read the file, write Python/Stata code, execute it, and produce the table — all from a single prompt.
-            </p>
-        </div>
-        <aside class="notes">
-            Open terminal, run claude, paste the prompt. Let it work. ~2 minutes.
-            This hooks the audience immediately.
-        </aside>
     </section>
 
     <section>
-        <h2>What Just Happened?</h2>
-        <div class="flow-diagram">
-            <div class="flow-box">Your prompt</div>
-            <span style="color: var(--accent);">&rarr;</span>
-            <div class="flow-box active">Claude Code<br><small style="color: #888;">reads, writes, runs</small></div>
-            <span style="color: var(--accent);">&rarr;</span>
-            <div class="flow-box">Output files</div>
-        </div>
-        <ul style="font-size: 0.8em;">
-            <li>Claude is an <strong>agent</strong> — it plans, uses tools, and iterates</li>
-            <li>It read your CSV, chose the right approach, wrote code, ran it</li>
-            <li>Everything is local, reproducible, in your project folder</li>
-            <li>All changes tracked by git — you can always revert</li>
-        </ul>
-        <p style="font-size: 0.75em; color: #888; margin-top: 0.5em;">
-            This is <strong style="color: var(--accent);">Claude Code</strong> — an AI research partner in your terminal. 75.9k GitHub stars. Responsible for 4% of public GitHub commits.
-        </p>
-    </section>
-</section>
-
-<!-- ============================================ -->
-<!-- THE FOUNDATION: CLAUDE.md + Git -->
-<!-- ============================================ -->
-<section>
-    <section class="section-slide">
-        <span class="section-number">01</span>
-        <h2>The Foundation</h2>
-        <p style="font-size: 0.85em; color: #888; max-width: 60%;">CLAUDE.md + Git — teach your AI, protect your work.</p>
-    </section>
-
-    <section>
-        <h2>CLAUDE.md — Your AI's Memory</h2>
-        <p style="font-size: 0.75em; color: #888;">A markdown file at your project root. Claude reads it at every session start.</p>
+        <h2>CLAUDE.md — Teaching AI Your Project</h2>
+        <p style="font-size: 0.7em; color: #888;">A markdown file at your project root. Claude reads it automatically at every session.</p>
         <pre><code class="language-markdown" data-trim>
-# Fiscal Multipliers Project — CLAUDE.md
+# Fiscal Multipliers — CLAUDE.md
 
 ## Data
 - Main dataset: `data/raw/state_panel.dta`
@@ -284,16 +289,17 @@
 - Always cluster SEs at state level
 - Use `reghdfe` for FE, never `xtreg`
 - Tables via `estout` → `tables/`
-
-## Key Variables
-- Y: state GDP growth (`gdp_growth`)
-- X: military spending share (`mil_share`)
         </code></pre>
-        <p style="font-size: 0.7em; color: #888;">Every correction you make → add to CLAUDE.md → Claude never repeats the mistake.</p>
+        <div class="highlight-box green" style="margin-top: 0.3em;">
+            <p style="font-size: 0.7em; margin: 0;">
+                <strong>Key practice:</strong> Every time Claude makes a mistake, add a rule to CLAUDE.md.<br>
+                Claude writes rules for itself and never repeats the mistake. <em>Compound learning.</em>
+            </p>
+        </div>
     </section>
 
     <section>
-        <h2>Why Git Matters</h2>
+        <h2>Why Git is Non-Negotiable</h2>
         <div class="card-grid">
             <div class="card">
                 <h4>Safety Net</h4>
@@ -301,18 +307,18 @@
             </div>
             <div class="card">
                 <h4>Context for AI</h4>
-                <p>Claude reads git history — understands what changed, why, and the project state.</p>
+                <p>Claude reads git history — understands what changed, why, and the full project state.</p>
             </div>
             <div class="card">
                 <h4>Collaboration</h4>
-                <p>Share CLAUDE.md, skills, agents with co-authors. Everyone's AI learns the same rules.</p>
+                <p>Share CLAUDE.md, skills, agents with co-authors via git. Everyone's AI learns the same rules.</p>
             </div>
             <div class="card">
                 <h4>Reproducibility</h4>
                 <p>Every AI-assisted change tracked. Perfect audit trail for research integrity.</p>
             </div>
         </div>
-        <div class="highlight-box orange" style="margin-top: 0.5em;">
+        <div class="highlight-box orange" style="margin-top: 0.4em;">
             <p style="font-size: 0.7em; margin: 0;">
                 <strong>Rule #1:</strong> Never let AI edit files outside a git repo. No exceptions.
             </p>
@@ -320,521 +326,39 @@
     </section>
 </section>
 
-<!-- ============================================ -->
-<!-- CATEGORY 1: PRODUCTIVITY -->
-<!-- ============================================ -->
+<!-- === 2. SKILLS === -->
 <section>
     <section class="section-slide">
         <span class="section-number">02</span>
-        <h2>Productivity</h2>
-        <p style="font-size: 0.85em; color: #888; max-width: 60%;">Session tracking, calendar, email — your AI assistant.</p>
+        <h2>Skills</h2>
+        <p style="font-size: 0.85em; color: #888; max-width: 60%;">Reusable AI workflows you invoke with a slash command.</p>
     </section>
 
     <section>
-        <h2>Session Capture: <code>/done</code> <span class="tag live">LIVE</span></h2>
-        <p style="font-size: 0.75em;">End every work session with <code>/done</code> — Claude captures decisions, open questions, and next steps.</p>
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — session capture</span>
-            </div>
-            <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">/done</span><br><br>
-                <span class="success">SESSION CAPTURED</span><br>
-                <span class="output">Topic: Fiscal multipliers — IV robustness</span><br>
-                <span class="output">Decisions: 3 | Questions: 2 | Follow-ups: 4</span><br>
-                <span class="output">Logged to: session-log.md</span><br><br>
-                <span class="warn">Next time: Re-run with Bartik instrument</span>
-            </div>
+        <h2>What is a Skill?</h2>
+        <div class="flow-diagram">
+            <div class="flow-box" style="font-family: var(--r-code-font); color: var(--accent3);">/lit-review</div>
+            <span style="color: var(--accent);">&rarr;</span>
+            <div class="flow-box active">Skill file<br><small style="color: #888;">(markdown with instructions)</small></div>
+            <span style="color: var(--accent);">&rarr;</span>
+            <div class="flow-box">Claude executes<br><small style="color: #888;">multi-step workflow</small></div>
         </div>
-        <ul style="font-size: 0.7em;">
-            <li>Writes structured entry to <code>session-log.md</code></li>
-            <li>Generates a <strong>handoff note</strong> — next session picks up seamlessly</li>
-            <li>Prunes entries older than 60 days automatically</li>
+        <ul style="font-size: 0.8em;">
+            <li>A <strong>markdown file</strong> with structured instructions for a specific workflow</li>
+            <li>Invoked with <code>/skill-name</code> — turns complex tasks into one command</li>
+            <li>Lives in <code>.claude/commands/</code> — shared with your team via git</li>
+            <li>You can ask Claude to <strong>create skills for you</strong></li>
         </ul>
-    </section>
-
-    <section>
-        <h2>Calendar &amp; Email via MCP</h2>
-        <p style="font-size: 0.75em;">Claude can connect to <strong>Google Calendar</strong>, <strong>Gmail</strong>, and <strong>Slack</strong> through MCP servers.</p>
-        <div class="card-grid">
-            <div class="card">
-                <h4>Google Calendar</h4>
-                <p>
-                    "What's on my calendar this week?"<br>
-                    "Schedule a meeting with X on Thursday at 2pm"<br>
-                    "Find a free slot for a 1-hour meeting next week"
-                </p>
-            </div>
-            <div class="card">
-                <h4>Gmail</h4>
-                <p>
-                    "Draft a reply to the referee report email"<br>
-                    "Search my inbox for emails about the grant deadline"<br>
-                    "Summarize unread emails from the department"
-                </p>
-            </div>
-        </div>
-        <pre><code class="language-json" data-trim>
-// ~/.claude/mcp.json — connect external tools
-{
-  "mcpServers": {
-    "google-calendar": { "command": "npx", "args": ["gcal-mcp-server"] },
-    "slack": { "type": "http", "url": "https://slack.mcp.anthropic.com/mcp" }
-  }
-}
-        </code></pre>
-    </section>
-
-    <section>
-        <h2>AI Weekly Report: <code>/ai-weekly</code></h2>
-        <p style="font-size: 0.75em;">Every week, Claude scans 7 categories of AI news and produces a curated report for economists.</p>
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — weekly AI digest</span>
-            </div>
-            <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">/ai-weekly 7</span><br><br>
-                <span class="output">Searching: new models, research tools, AI for econ,</span><br>
-                <span class="output">tool updates, policy, infrastructure, workflow ideas...</span><br><br>
-                <span class="success">Report saved: ~/Dropbox/ai-weekly-2026-03-10.md</span><br>
-                <span class="output">15 items across 7 categories</span>
-            </div>
-        </div>
-        <p style="font-size: 0.7em; color: #888;">Filters aggressively for what matters to you: econometrics, microsimulation, LaTeX, Stata, R, Python.</p>
-    </section>
-</section>
-
-<!-- ============================================ -->
-<!-- CATEGORY 2: WRITING -->
-<!-- ============================================ -->
-<section>
-    <section class="section-slide">
-        <span class="section-number">03</span>
-        <h2>Academic Writing</h2>
-        <p style="font-size: 0.85em; color: #888; max-width: 60%;">From rough draft to top-5 quality prose.</p>
-    </section>
-
-    <section>
-        <h2>The Writing Toolkit</h2>
-        <div class="card-grid three-col">
-            <div class="card">
-                <h4>/paper-architect</h4>
-                <p>Lock the argument structure before writing a single word. Ensures logical flow from motivation to contribution.</p>
-            </div>
-            <div class="card">
-                <h4>/section-architect</h4>
-                <p>Plan a section around actual results. Reads your tables and figures first, then builds the narrative.</p>
-            </div>
-            <div class="card">
-                <h4>/intro-abstract-writer</h4>
-                <p>Top-5 quality intros. Modeled on Nakamura-Steinsson, Autor-Dorn-Hanson, Mian-Sufi, and 15+ more.</p>
-            </div>
-            <div class="card">
-                <h4>/polish</h4>
-                <p>Context-aware prose polishing. Locates the passage within the paper, diagnoses every sentence, rewrites.</p>
-            </div>
-            <div class="card">
-                <h4>/referee-response</h4>
-                <p>Point-by-point response to referee reports. Categorizes comments, drafts replies, generates revision plan.</p>
-            </div>
-            <div class="card">
-                <h4>/devils-advocate</h4>
-                <p>Hostile referee simulation. Finds weaknesses before the real referees do.</p>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2>Live: Polish a Passage <span class="tag live">LIVE</span></h2>
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — polishing prose</span>
-            </div>
-            <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">/polish</span><br>
-                <span class="cmd">"We find that the fiscal multiplier is large and</span><br>
-                <span class="cmd">statistically significant. Our results are robust</span><br>
-                <span class="cmd">to many different specifications and we think this</span><br>
-                <span class="cmd">is an important contribution to the literature."</span>
-            </div>
-        </div>
-        <p style="font-size: 0.75em; margin-top: 0.5em;">Claude will:</p>
-        <ul style="font-size: 0.7em;">
-            <li>Locate the passage in your paper for full context</li>
-            <li>Diagnose each sentence (vague claims, weasel words, missing specificity)</li>
-            <li>Rewrite with magnitudes, precision, and architectural discipline</li>
-        </ul>
-        <div class="try-it">
-            <strong>Try it:</strong> Open a terminal, run <code>claude</code>, paste a paragraph from your current paper, type <code>/polish</code>
-        </div>
-    </section>
-
-    <section>
-        <h2>Manuscript Review &amp; AI Audit</h2>
-        <div class="card-grid">
-            <div class="card">
-                <h4>/manuscript-review</h4>
-                <p>
-                    Four-tier agent architecture:<br>
-                    <span style="color: var(--accent3);">Paragraph &rarr; Section &rarr; Synthesis &rarr; Validation</span><br>
-                    Every sentence gets full attention. All Critical/Moderate findings verified against source files.
-                </p>
-            </div>
-            <div class="card">
-                <h4>/ai-audit</h4>
-                <p>
-                    Validates against <strong>all</strong> AI detection criteria used by journal editors, publishers, and frontier detection tools. Catches patterns before submission.
-                </p>
-            </div>
-        </div>
-        <div class="highlight-box" style="margin-top: 0.5em;">
+        <div class="highlight-box" style="margin-top: 0.3em;">
             <p style="font-size: 0.7em; margin: 0;">
-                These skills spawn <strong>multiple agents in parallel</strong> — each reviewing a different part of your manuscript simultaneously.
-            </p>
-        </div>
-    </section>
-</section>
-
-<!-- ============================================ -->
-<!-- CATEGORY 3: DATA & ANALYSIS -->
-<!-- ============================================ -->
-<section>
-    <section class="section-slide">
-        <span class="section-number">04</span>
-        <h2>Data &amp; Analysis</h2>
-        <p style="font-size: 0.85em; color: #888; max-width: 60%;">From raw data to publication-ready tables.</p>
-    </section>
-
-    <section>
-        <h2>The Analysis Toolkit</h2>
-        <div class="card-grid three-col">
-            <div class="card">
-                <h4>/stata-regression</h4>
-                <p>Run regressions with publication-ready output tables. Handles FE, IV, clustering.</p>
-            </div>
-            <div class="card">
-                <h4>/r-econometrics</h4>
-                <p>IV, DiD, and RDD with proper diagnostics. Uses fixest and modelsummary.</p>
-            </div>
-            <div class="card">
-                <h4>/python-panel-data</h4>
-                <p>Panel data via linearmodels and pandas. Entity/time FE, clustered SEs.</p>
-            </div>
-            <div class="card">
-                <h4>/local-projections</h4>
-                <p>Jord&agrave;-style IRFs in Stata or R. Confidence bands, shock identification.</p>
-            </div>
-            <div class="card">
-                <h4>/stata-data-cleaning</h4>
-                <p>Reproducible data transformation workflows. Handles merges, reshapes, labels.</p>
-            </div>
-            <div class="card">
-                <h4>/api-data-fetcher</h4>
-                <p>Pull data from FRED, World Bank, and other APIs directly into your project.</p>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2>Live: LaTeX Tables <span class="tag live">LIVE</span></h2>
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — generating tables</span>
-            </div>
-            <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">/latex-tables</span><br>
-                <span class="cmd">Generate a regression table from the results in</span><br>
-                <span class="cmd">analysis/iv_results.do. Three panels:</span><br>
-                <span class="cmd">OLS, reduced form, and 2SLS. AER style.</span><br><br>
-                <span class="success">&#10003; Table written to tables/main_results.tex</span><br>
-                <span class="output">3 panels | 6 columns | Stars at 1/5/10%</span>
-            </div>
-        </div>
-        <div class="try-it">
-            <strong>Try it:</strong> Point Claude at any regression output and ask for a publication-ready table
-        </div>
-    </section>
-
-    <section>
-        <h2>Data Validation Agent</h2>
-        <p style="font-size: 0.75em;">A custom <strong>agent</strong> (not a skill) that autonomously validates datasets before analysis.</p>
-        <pre><code class="language-markdown" data-trim data-line-numbers="1-6|8-14|16-22">
-# .claude/agents/data-validator.md
----
-name: data-validator
-model: sonnet
-tools: [Read, Bash, Write, Grep]
----
-
-You are a meticulous data validator for econ research.
-
-## Process
-1. Read the dataset (.dta, .csv, .parquet)
-2. Summary statistics for all variables
-3. Missing values analysis (MCAR, MAR, MNAR)
-4. Outlier detection (>3 SD)
-
-5. Panel structure check:
-   - Balanced? Gaps in time?
-   - Duplicate id-time observations?
-   - Within vs between variation
-
-6. Write findings to data/validation_report.md
-   - Pass/Fail summary at top
-   - Code snippets to fix each issue
-        </code></pre>
-    </section>
-</section>
-
-<!-- ============================================ -->
-<!-- CATEGORY 4: LITERATURE -->
-<!-- ============================================ -->
-<section>
-    <section class="section-slide">
-        <span class="section-number">05</span>
-        <h2>Literature Reviews</h2>
-        <p style="font-size: 0.85em; color: #888; max-width: 60%;">Search, synthesize, and stay current.</p>
-    </section>
-
-    <section>
-        <h2>Literature Review: <code>/lit-review</code> <span class="tag live">LIVE</span></h2>
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — literature search</span>
-            </div>
-            <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">/lit-review fiscal multipliers in open economies</span><br><br>
-                <span class="output">Searching Google Scholar, NBER, CEPR...</span><br>
-                <span class="output">Found 23 relevant papers</span><br><br>
-                <span class="success">Structured review saved: notes/lit-review-fiscal.md</span><br>
-                <span class="output">Seminal: 8 | Recent: 12 | Working papers: 3</span>
-            </div>
-        </div>
-        <ul style="font-size: 0.7em;">
-            <li>Uses <strong>Google Scholar MCP</strong> for citation-aware search</li>
-            <li>Finds seminal papers, recent contributions, and working papers</li>
-            <li>Extracts key finding, method, and data for each paper</li>
-            <li>Outputs structured markdown — ready to paste into your LaTeX intro</li>
-        </ul>
-        <div class="try-it">
-            <strong>Try it:</strong> <code>/lit-review</code> + your research topic
-        </div>
-    </section>
-
-    <section>
-        <h2>Research Ideation: <code>/research-ideation</code></h2>
-        <p style="font-size: 0.75em;">Generate research questions from economic phenomena.</p>
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — brainstorming</span>
-            </div>
-            <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">/research-ideation</span><br>
-                <span class="cmd">I noticed that AI adoption varies hugely across</span><br>
-                <span class="cmd">European countries. What research questions could</span><br>
-                <span class="cmd">I pursue with firm-level data?</span>
-            </div>
-        </div>
-        <p style="font-size: 0.7em; margin-top: 0.5em; color: #888;">
-            Claude will search for existing literature, identify gaps, suggest identification strategies, and propose feasible research designs.
-        </p>
-    </section>
-</section>
-
-<!-- ============================================ -->
-<!-- CATEGORY 5: PRESENTATIONS & TEACHING -->
-<!-- ============================================ -->
-<section>
-    <section class="section-slide">
-        <span class="section-number">06</span>
-        <h2>Presentations &amp; Teaching</h2>
-        <p style="font-size: 0.85em; color: #888; max-width: 60%;">Beamer, PowerPoint, and course materials.</p>
-    </section>
-
-    <section>
-        <h2>Beamer Presentations</h2>
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — creating slides</span>
-            </div>
-            <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">/beamer-presentation</span><br>
-                <span class="cmd">Create a 20-minute seminar presentation from</span><br>
-                <span class="cmd">my paper in paper/main.tex. Focus on the</span><br>
-                <span class="cmd">identification strategy and main results.</span><br><br>
-                <span class="success">&#10003; slides/seminar_talk.tex created</span><br>
-                <span class="output">15 slides | Metropolis theme | Key tables included</span>
-            </div>
-        </div>
-        <ul style="font-size: 0.7em;">
-            <li>Reads your paper, extracts the key story</li>
-            <li>Generates clean Beamer with proper structure (motivation → identification → results)</li>
-            <li>Includes your actual tables and figures</li>
-        </ul>
-    </section>
-
-    <section>
-        <h2>PowerPoint via Claude Plugin <span class="tag purple">plugin</span></h2>
-        <p style="font-size: 0.75em;">The <strong>frontend-design</strong> plugin lets Claude generate beautiful HTML-based presentations — exportable or directly usable.</p>
-        <div class="card-grid">
-            <div class="card">
-                <h4>How It Works</h4>
-                <p>
-                    1. Install: <code>/plugin</code> &rarr; frontend-design<br>
-                    2. Ask: "Create a presentation about X"<br>
-                    3. Claude generates a polished HTML deck<br>
-                    4. Open in browser or export to PDF/PPTX
-                </p>
-            </div>
-            <div class="card">
-                <h4>Why It's Special</h4>
-                <p>
-                    Unlike Beamer, the plugin produces <strong>modern, visually striking</strong> slides with custom typography, animations, and responsive design. These slides were built this way.
-                </p>
-            </div>
-        </div>
-        <div class="terminal" style="margin-top: 0.5em;">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — install plugin</span>
-            </div>
-            <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">/plugin</span><br>
-                <span class="output">Available plugins:</span><br>
-                <span class="highlight">&nbsp; frontend-design</span> <span class="output">— Create distinctive production-grade interfaces</span><br>
-                <span class="output">&nbsp; code-review &nbsp;&nbsp;&nbsp; — Automated code review agent</span><br>
-                <span class="output">&nbsp; skill-creator &nbsp; — Build new skills interactively</span>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2>Teaching Applications</h2>
-        <div class="card-grid">
-            <div class="card">
-                <h4>Problem Sets</h4>
-                <p>"Generate a problem set on IV estimation with solutions. 5 questions, increasing difficulty. Include a Stata coding exercise."</p>
-            </div>
-            <div class="card">
-                <h4>Code Feedback</h4>
-                <p>"Review this student's Stata code for their DiD assignment. Check correctness, style, and economic interpretation."</p>
-            </div>
-            <div class="card">
-                <h4>Interactive Tutorials</h4>
-                <p>"Build a guided exercise where students work through RDD step by step — from visualization to estimation."</p>
-            </div>
-            <div class="card">
-                <h4>Exam Creation</h4>
-                <p>"Generate a practice exam from my lecture notes on time series. Create answer key with grading rubric."</p>
-            </div>
-        </div>
-    </section>
-</section>
-
-<!-- ============================================ -->
-<!-- HOW TO BUILD: SKILLS & AGENTS -->
-<!-- ============================================ -->
-<section>
-    <section class="section-slide">
-        <span class="section-number">07</span>
-        <h2>Build Your Own</h2>
-        <p style="font-size: 0.85em; color: #888; max-width: 60%;">Skills, agents, and swarms — the meta-skill.</p>
-    </section>
-
-    <section>
-        <h2>Skills vs. Agents</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Skill <span class="tag blue">/command</span></th>
-                    <th>Agent <span class="tag purple">.md file</span></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>What</strong></td>
-                    <td>A prompt template you invoke</td>
-                    <td>An autonomous worker with a role</td>
-                </tr>
-                <tr>
-                    <td><strong>Where</strong></td>
-                    <td><code>.claude/commands/</code></td>
-                    <td><code>.claude/agents/</code></td>
-                </tr>
-                <tr>
-                    <td><strong>How</strong></td>
-                    <td><code>/skill-name</code></td>
-                    <td>Spawned as subagent or <code>--agent</code></td>
-                </tr>
-                <tr>
-                    <td><strong>Scope</strong></td>
-                    <td>One workflow, then done</td>
-                    <td>Persistent role, can be long-running</td>
-                </tr>
-                <tr>
-                    <td><strong>Analogy</strong></td>
-                    <td>A recipe card</td>
-                    <td>A research assistant with a job description</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
-    <section>
-        <h2>Build a Skill in 2 Minutes <span class="tag live">LIVE</span></h2>
-        <div class="terminal">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — creating a skill</span>
-            </div>
-            <div class="terminal-body">
-                <span class="output"># Ask Claude to build a skill for you</span><br>
-                <span class="prompt">></span> <span class="cmd">Create a skill called /summary-stats that</span><br>
-                <span class="cmd">&nbsp; reads a dataset, generates summary statistics,</span><br>
-                <span class="cmd">&nbsp; and outputs a LaTeX table. Save it to</span><br>
-                <span class="cmd">&nbsp; .claude/commands/summary-stats.md</span><br><br>
-                <span class="success">&#10003; Skill created: .claude/commands/summary-stats.md</span><br><br>
-                <span class="output"># Now use it immediately</span><br>
-                <span class="prompt">></span> <span class="cmd">/summary-stats data/raw/panel.dta</span>
-            </div>
-        </div>
-        <div class="highlight-box green">
-            <p style="font-size: 0.7em; margin: 0;">
-                <strong>Key insight:</strong> You don't need to write skills from scratch — ask Claude to create them for you.
-                Then iterate: "make it also check for outliers" → skill improves.
+                <strong>Rule of thumb:</strong> If you do something more than once, turn it into a skill.
             </p>
         </div>
     </section>
 
     <section>
-        <h2>Skill Anatomy</h2>
-        <pre><code class="language-markdown" data-trim data-line-numbers="1-5|7-8|10-11|13-28">
+        <h2>Anatomy of a Skill</h2>
+        <pre><code class="language-markdown" data-trim data-line-numbers="1-5|7-8|10-11|13-30">
 ---
 name: summary-stats
 description: Generate summary statistics tables
@@ -857,8 +381,9 @@ For numeric: N, mean, SD, min, p25, median, p75, max
 For categorical: N, unique values, mode, frequencies
 
 ### Step 3: Generate LaTeX Table
-Use booktabs style. Panel A: continuous, Panel B: categorical.
-Include variable labels if available.
+Use booktabs style.
+Panel A: continuous variables
+Panel B: categorical variables
 
 ### Step 4: Save
 Write to `tables/summary_statistics.tex`
@@ -867,95 +392,199 @@ Display a preview in the terminal.
     </section>
 
     <section>
-        <h2>Build an Agent <span class="tag live">LIVE</span></h2>
+        <h2>How to Build a Skill</h2>
         <div class="terminal">
             <div class="terminal-header">
                 <div class="terminal-dot red"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — creating an agent</span>
+                <span class="terminal-title">zsh — two ways</span>
             </div>
             <div class="terminal-body">
-                <span class="prompt">></span> <span class="cmd">Create an agent called "code-reviewer" in</span><br>
-                <span class="cmd">&nbsp; .claude/agents/code-reviewer.md that reviews</span><br>
-                <span class="cmd">&nbsp; Stata and R code for common econometric mistakes:</span><br>
-                <span class="cmd">&nbsp; wrong clustering, missing FE, log of negative</span><br>
-                <span class="cmd">&nbsp; values, unbalanced panels treated as balanced.</span><br>
-                <span class="cmd">&nbsp; Give it only Read and Grep tools.</span><br><br>
-                <span class="success">&#10003; Agent created: .claude/agents/code-reviewer.md</span>
+                <span class="output"># Option 1: Ask Claude to build it for you</span><br>
+                <span class="prompt">></span> <span class="cmd">Create a skill called /robustness that runs</span><br>
+                <span class="cmd">&nbsp; all IV robustness checks. Save it to</span><br>
+                <span class="cmd">&nbsp; .claude/commands/robustness.md</span><br><br>
+                <span class="output"># Option 2: Write the markdown yourself</span><br>
+                <span class="prompt">$</span> <span class="cmd">vim .claude/commands/robustness.md</span><br><br>
+                <span class="output"># Either way, use it immediately:</span><br>
+                <span class="prompt">></span> <span class="cmd">/robustness analysis/main_iv.do</span>
             </div>
         </div>
-        <p style="font-size: 0.7em; margin-top: 0.4em;">
-            The key difference: agents have <strong>restricted tools</strong> and a <strong>specific persona</strong>. A code-reviewer shouldn't edit files — it should only read and report.
+        <p style="font-size: 0.7em; color: #888; margin-top: 0.4em;">
+            Then iterate: <em>"make it also check for weak instruments"</em> — the skill evolves.
         </p>
+    </section>
+</section>
+
+<!-- === 3. AGENTS === -->
+<section>
+    <section class="section-slide">
+        <span class="section-number">03</span>
+        <h2>Agents</h2>
+        <p style="font-size: 0.85em; color: #888; max-width: 60%;">Autonomous workers with specific roles and restricted tools.</p>
     </section>
 
     <section>
-        <h2>Swarm: Parallel Agents via Worktrees <span class="tag orange">advanced</span></h2>
+        <h2>Skills vs. Agents</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Skill <span class="tag blue">/command</span></th>
+                    <th>Agent <span class="tag purple">.md file</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>What</strong></td>
+                    <td>A prompt template you invoke</td>
+                    <td>An autonomous worker with a persona</td>
+                </tr>
+                <tr>
+                    <td><strong>Where</strong></td>
+                    <td><code>.claude/commands/</code></td>
+                    <td><code>.claude/agents/</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Invocation</strong></td>
+                    <td><code>/skill-name</code></td>
+                    <td>Spawned as subagent or <code>--agent</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Scope</strong></td>
+                    <td>One workflow, then done</td>
+                    <td>Persistent role, can be long-running</td>
+                </tr>
+                <tr>
+                    <td><strong>Tools</strong></td>
+                    <td>Uses main Claude's full toolset</td>
+                    <td>Custom, restricted tool set</td>
+                </tr>
+                <tr>
+                    <td><strong>Analogy</strong></td>
+                    <td>A recipe card</td>
+                    <td>An RA with a job description</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>Anatomy of an Agent</h2>
+        <pre><code class="language-markdown" data-trim data-line-numbers="1-8|10-14|16-24">
+---
+name: data-validator
+description: Validates datasets before analysis
+model: sonnet
+tools:
+  - Read
+  - Bash
+  - Write
+---
+
+# Data Validation Agent
+
+You are a meticulous data validator for econ research.
+Your job: check datasets for common issues before
+they are used in estimation.
+
+## Your Process
+1. Read the dataset (.dta, .csv, .parquet)
+2. Summary statistics for all variables
+3. Missing values analysis (MCAR, MAR, MNAR)
+4. Outlier detection (>3 SD from mean)
+5. Panel structure check (balanced? gaps? duplicates?)
+6. Write findings to data/validation_report.md
+
+## Rules
+- NEVER modify the original data files
+- Report exact variable names and counts
+        </code></pre>
+    </section>
+
+    <section>
+        <h2>Subagents — Divide and Conquer</h2>
+        <p style="font-size: 0.8em;">Claude can spawn <strong>subagents</strong> — independent workers that run in parallel.</p>
         <div style="text-align: center; margin: 0.6em 0;">
             <div style="display: inline-block; text-align: center;">
-                <div class="flow-box active" style="display: inline-block; margin-bottom: 0.4em;">
-                    You: "Run robustness, update lit review,<br>and clean the new data — in parallel"
+                <div class="flow-box active" style="display: inline-block; margin-bottom: 0.3em;">
+                    Main Claude Agent<br>
+                    <small style="color: #888;">orchestrator</small>
                 </div>
-                <div style="color: var(--accent); font-size: 1.3em; margin: 0.2em 0;">&darr;</div>
+                <div style="color: var(--accent); font-size: 1.3em; margin: 0.2em 0;">&darr; &nbsp; &darr; &nbsp; &darr;</div>
                 <div style="display: flex; gap: 0.6em; justify-content: center;">
                     <div class="flow-box" style="border-color: var(--accent3); font-size: 0.85em;">
-                        Worktree 1<br><small style="color: var(--accent3);">robustness checks</small>
+                        Subagent 1<br><small style="color: var(--accent3);">data cleaning</small>
                     </div>
                     <div class="flow-box" style="border-color: var(--accent2); font-size: 0.85em;">
-                        Worktree 2<br><small style="color: var(--accent2);">lit review update</small>
+                        Subagent 2<br><small style="color: var(--accent2);">lit search</small>
                     </div>
                     <div class="flow-box" style="border-color: var(--accent4); font-size: 0.85em;">
-                        Worktree 3<br><small style="color: var(--accent4);">data cleaning</small>
+                        Subagent 3<br><small style="color: var(--accent4);">code review</small>
                     </div>
-                </div>
-                <div style="color: var(--accent); font-size: 1.3em; margin: 0.2em 0;">&darr;</div>
-                <div class="flow-box" style="display: inline-block;">
-                    <code>git merge</code> — results combined
                 </div>
             </div>
         </div>
-        <div class="terminal" style="font-size: 0.55em;">
+        <ul style="font-size: 0.75em;">
+            <li>Each subagent gets its own <strong>context window</strong> — keeps the main agent clean</li>
+            <li>Run in parallel for massive speedups</li>
+            <li>Just say <em>"use subagents"</em> and Claude parallelizes automatically</li>
+        </ul>
+    </section>
+</section>
+
+<!-- === 4. WORKTREES === -->
+<section>
+    <section class="section-slide">
+        <span class="section-number">04</span>
+        <h2>Worktrees</h2>
+        <p style="font-size: 0.85em; color: #888; max-width: 60%;">The key to running multiple agents safely in parallel.</p>
+    </section>
+
+    <section>
+        <h2>The Problem with Parallel Agents</h2>
+        <div class="highlight-box orange">
+            <p style="font-size: 0.8em; margin: 0;">
+                Multiple agents editing the same files = <strong>merge conflicts and chaos</strong>.<br>
+                Agent 1 writes line 50 while Agent 2 deletes it.
+            </p>
+        </div>
+        <div style="margin-top: 0.8em;">
+            <h3>The Solution: Git Worktrees</h3>
+            <p style="font-size: 0.8em;">Same git repo, <strong>separate working directories</strong>. Each agent works in isolation.</p>
+        </div>
+        <div style="text-align: center; margin: 0.6em 0; font-size: 0.65em; font-family: var(--r-code-font);">
+            <div style="display: inline-block; text-align: left;">
+                <div style="color: var(--accent);">~/my-project/</div>
+                <div style="color: #888;">&nbsp;&nbsp;├── .git/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #555;">shared git history</span></div>
+                <div style="color: #888;">&nbsp;&nbsp;├── main code... &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #555;">you work here</span></div>
+                <div style="color: var(--accent3);">&nbsp;&nbsp;├── .claude/worktrees/agent-1/ &nbsp;&nbsp;<span style="color: #555;">isolated copy</span></div>
+                <div style="color: var(--accent2);">&nbsp;&nbsp;├── .claude/worktrees/agent-2/ &nbsp;&nbsp;<span style="color: #555;">isolated copy</span></div>
+                <div style="color: var(--accent4);">&nbsp;&nbsp;└── .claude/worktrees/agent-3/ &nbsp;&nbsp;<span style="color: #555;">isolated copy</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Worktrees in Practice</h2>
+        <div class="terminal">
             <div class="terminal-header">
                 <div class="terminal-dot red"></div>
                 <div class="terminal-dot yellow"></div>
                 <div class="terminal-dot green"></div>
-                <span class="terminal-title">zsh — parallel worktrees</span>
+                <span class="terminal-title">zsh — running 3 agents in parallel</span>
             </div>
             <div class="terminal-body">
-                <span class="output"># Each agent gets its own isolated copy of the repo</span><br>
+                <span class="output"># Each gets its own worktree — no conflicts</span><br>
                 <span class="prompt">$</span> <span class="cmd">claude --worktree robustness "Run all IV robustness checks"</span><br>
-                <span class="prompt">$</span> <span class="cmd">claude --worktree lit-review "Update the literature review"</span><br>
+                <span class="prompt">$</span> <span class="cmd">claude --worktree lit-review "Update the lit review section"</span><br>
                 <span class="prompt">$</span> <span class="cmd">claude --worktree data-clean "Clean the new Q4 data"</span><br><br>
-                <span class="output"># No file conflicts — each works in its own directory</span><br>
-                <span class="output"># When done, merge back via git</span>
+                <span class="output"># Each works independently — merge back when done</span><br>
+                <span class="prompt">$</span> <span class="cmd">git merge robustness lit-review data-clean</span>
             </div>
         </div>
-    </section>
-
-    <section>
-        <h2>Why Worktrees Are Crucial</h2>
-        <div class="card-grid">
-            <div class="card">
-                <h4>The Problem</h4>
-                <p>Multiple agents editing the same files = merge conflicts and chaos. Agent 1 writes line 50 while Agent 2 deletes it.</p>
-            </div>
-            <div class="card">
-                <h4>The Solution</h4>
-                <p>Git worktrees: same repo history, separate working directories. Each agent works in isolation. Changes merge cleanly.</p>
-            </div>
-        </div>
-        <div style="margin-top: 0.5em; font-size: 0.7em; font-family: var(--r-code-font); text-align: center;">
-            <div style="display: inline-block; text-align: left;">
-                <div style="color: var(--accent);">~/my-project/</div>
-                <div style="color: #888;">&nbsp;&nbsp;├── .git/ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #555;">shared history</span></div>
-                <div style="color: #888;">&nbsp;&nbsp;├── main code... &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #555;">you work here</span></div>
-                <div style="color: var(--accent3);">&nbsp;&nbsp;├── .claude/worktrees/agent-1/ <span style="color: #555;">isolated copy</span></div>
-                <div style="color: var(--accent2);">&nbsp;&nbsp;├── .claude/worktrees/agent-2/ <span style="color: #555;">isolated copy</span></div>
-                <div style="color: var(--accent4);">&nbsp;&nbsp;└── .claude/worktrees/agent-3/ <span style="color: #555;">isolated copy</span></div>
-            </div>
-        </div>
-        <blockquote style="margin-top: 0.5em; font-size: 0.8em;">
+        <blockquote style="margin-top: 0.5em;">
             "The single biggest productivity unlock — spin up 3-5 worktrees, each running its own Claude session."
             <cite>— Boris Cherny, creator of Claude Code</cite>
         </blockquote>
@@ -963,49 +592,370 @@ Display a preview in the terminal.
 </section>
 
 <!-- ============================================ -->
-<!-- WRAP-UP -->
+<!-- PART II: THE WORKFLOW MAP (5 min) -->
 <!-- ============================================ -->
 <section>
+    <section class="section-slide">
+        <span class="section-number">05</span>
+        <h2>My Workflow</h2>
+        <p style="font-size: 0.85em; color: #888; max-width: 60%;">30+ skills and agents across 7 categories.</p>
+    </section>
+
     <section>
-        <h2>What We Built Today</h2>
-        <div style="font-size: 0.75em;">
+        <h2>The Full Picture</h2>
+        <div style="text-align: center; margin: 0.3em 0;">
+            <div style="display: inline-block;">
+                <div class="flow-box" style="width: 600px; border-color: var(--accent4); margin-bottom: 0.2em; text-align: center; font-size: 0.8em;">
+                    <strong style="color: var(--accent4);">MCP Servers</strong><br>
+                    <small style="color: #888;">Google Scholar &nbsp;|&nbsp; Slack &nbsp;|&nbsp; GitHub &nbsp;|&nbsp; Calendar &nbsp;|&nbsp; Gmail</small>
+                </div>
+                <div style="color: var(--accent); text-align: center; font-size: 0.8em;">&uarr;</div>
+                <div class="flow-box" style="width: 600px; border-color: var(--accent2); margin-bottom: 0.2em; text-align: center; font-size: 0.8em;">
+                    <strong style="color: var(--accent2);">Agents</strong> &nbsp;
+                    <small style="color: #888;">data-validator &nbsp;|&nbsp; code-reviewer &nbsp;|&nbsp; manuscript-reviewer</small>
+                </div>
+                <div style="color: var(--accent); text-align: center; font-size: 0.8em;">&uarr;</div>
+                <div class="flow-box" style="width: 600px; border-color: var(--accent3); margin-bottom: 0.2em; text-align: center; font-size: 0.8em;">
+                    <strong style="color: var(--accent3);">30+ Skills</strong> &nbsp;
+                    <small style="color: #888;">organized by workflow stage (see next slide)</small>
+                </div>
+                <div style="color: var(--accent); text-align: center; font-size: 0.8em;">&uarr;</div>
+                <div class="flow-box active" style="width: 600px; margin-bottom: 0.2em; text-align: center; font-size: 0.8em;">
+                    <strong>Claude Code</strong> + <strong>CLAUDE.md</strong> + <strong>Plugins</strong>
+                </div>
+                <div style="color: var(--accent); text-align: center; font-size: 0.8em;">&uarr;</div>
+                <div class="flow-box" style="width: 600px; text-align: center; font-size: 0.8em;">
+                    <strong>Git</strong> &nbsp;|&nbsp; <strong>Worktrees</strong> &nbsp;|&nbsp; version control &nbsp;|&nbsp; parallel agents
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section data-transition="none">
+        <h2>Skills Map</h2>
+        <div class="workflow-map">
+            <div class="wf-label" style="color: var(--accent4);">Productivity</div>
+            <div class="wf-items">
+                <span class="wf-item" style="border-color: rgba(251,146,60,0.4);">/done</span>
+                <span class="wf-item" style="border-color: rgba(251,146,60,0.4);">/ai-weekly</span>
+                <span class="wf-item" style="border-color: rgba(251,146,60,0.4);">/prompt</span>
+                <span class="wf-item" style="border-color: rgba(251,146,60,0.4);">Calendar MCP</span>
+                <span class="wf-item" style="border-color: rgba(251,146,60,0.4);">Gmail MCP</span>
+                <span class="wf-item" style="border-color: rgba(251,146,60,0.4);">Slack MCP</span>
+            </div>
+
+            <div class="wf-label" style="color: var(--accent);">Literature</div>
+            <div class="wf-items">
+                <span class="wf-item">/lit-review</span>
+                <span class="wf-item">/research-ideation</span>
+                <span class="wf-item">Google Scholar MCP</span>
+            </div>
+
+            <div class="wf-label" style="color: var(--accent3);">Data &amp; Analysis</div>
+            <div class="wf-items">
+                <span class="wf-item" style="border-color: rgba(52,211,153,0.4);">/stata-regression</span>
+                <span class="wf-item" style="border-color: rgba(52,211,153,0.4);">/r-econometrics</span>
+                <span class="wf-item" style="border-color: rgba(52,211,153,0.4);">/python-panel-data</span>
+                <span class="wf-item" style="border-color: rgba(52,211,153,0.4);">/local-projections</span>
+                <span class="wf-item" style="border-color: rgba(52,211,153,0.4);">/stata-data-cleaning</span>
+                <span class="wf-item" style="border-color: rgba(52,211,153,0.4);">/api-data-fetcher</span>
+                <span class="wf-item" style="border-color: rgba(52,211,153,0.4);">/latex-tables</span>
+            </div>
+
+            <div class="wf-label" style="color: var(--accent2);">Writing</div>
+            <div class="wf-items">
+                <span class="wf-item" style="border-color: rgba(192,132,252,0.4);">/paper-architect</span>
+                <span class="wf-item" style="border-color: rgba(192,132,252,0.4);">/section-architect</span>
+                <span class="wf-item" style="border-color: rgba(192,132,252,0.4);">/intro-abstract-writer</span>
+                <span class="wf-item" style="border-color: rgba(192,132,252,0.4);">/polish</span>
+                <span class="wf-item" style="border-color: rgba(192,132,252,0.4);">/referee-response</span>
+                <span class="wf-item" style="border-color: rgba(192,132,252,0.4);">/devils-advocate</span>
+            </div>
+
+            <div class="wf-label" style="color: var(--accent5);">Review</div>
+            <div class="wf-items">
+                <span class="wf-item" style="border-color: rgba(255,107,157,0.4);">/manuscript-review</span>
+                <span class="wf-item" style="border-color: rgba(255,107,157,0.4);">/ai-audit</span>
+                <span class="wf-item" style="border-color: rgba(255,107,157,0.4);">/precision-auditor</span>
+            </div>
+
+            <div class="wf-label" style="color: #aaa;">Presentations</div>
+            <div class="wf-items">
+                <span class="wf-item">/beamer-presentation</span>
+                <span class="wf-item">frontend-design plugin</span>
+                <span class="wf-item">/econ-visualization</span>
+            </div>
+
+            <div class="wf-label" style="color: #888;">Workflow</div>
+            <div class="wf-items">
+                <span class="wf-item" style="color: #888;">/worktree-planner</span>
+                <span class="wf-item" style="color: #888;">/review-plan</span>
+                <span class="wf-item" style="color: #888;">/social-post</span>
+                <span class="wf-item" style="color: #888;">/youtube-prep</span>
+                <span class="wf-item" style="color: #888;">/pdf-search</span>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Research Pipeline: Idea &rarr; Paper</h2>
+        <div style="font-size: 0.7em;">
             <table style="width: 100%;">
                 <thead>
-                    <tr><th>Category</th><th>Tools Shown</th><th>Try Right Now</th></tr>
+                    <tr><th>Stage</th><th>AI Assist</th><th>Your Role</th></tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong style="color: var(--accent4);">Productivity</strong></td>
-                        <td>/done, /ai-weekly, Calendar &amp; Gmail MCP</td>
-                        <td><code>/done</code> after this session</td>
+                        <td><strong>1. Ideation</strong></td>
+                        <td><code>/lit-review</code> + <code>/research-ideation</code></td>
+                        <td>Frame the question, identify the gap</td>
                     </tr>
                     <tr>
-                        <td><strong style="color: var(--accent2);">Writing</strong></td>
-                        <td>/polish, /intro-abstract-writer, /referee-response, /manuscript-review</td>
-                        <td><code>/polish</code> a paragraph</td>
+                        <td><strong>2. Data</strong></td>
+                        <td>Data-validator agent + <code>/api-data-fetcher</code></td>
+                        <td>Choose variables, validate assumptions</td>
                     </tr>
                     <tr>
-                        <td><strong style="color: var(--accent3);">Data &amp; Analysis</strong></td>
-                        <td>/latex-tables, /stata-regression, data-validator agent</td>
-                        <td><code>/latex-tables</code> from output</td>
+                        <td><strong>3. Analysis</strong></td>
+                        <td><code>/stata-regression</code> + <code>/latex-tables</code></td>
+                        <td>Specify the model, interpret results</td>
                     </tr>
                     <tr>
-                        <td><strong style="color: var(--accent);">Literature</strong></td>
-                        <td>/lit-review, /research-ideation, Google Scholar MCP</td>
-                        <td><code>/lit-review</code> your topic</td>
+                        <td><strong>4. Writing</strong></td>
+                        <td><code>/paper-architect</code> &rarr; <code>/section-architect</code> &rarr; <code>/polish</code></td>
+                        <td>Drive the argument, judge the narrative</td>
                     </tr>
                     <tr>
-                        <td><strong style="color: var(--accent5);">Presentations</strong></td>
-                        <td>/beamer-presentation, frontend-design plugin</td>
-                        <td>Ask Claude to make slides</td>
+                        <td><strong>5. Review</strong></td>
+                        <td><code>/manuscript-review</code> + <code>/devils-advocate</code></td>
+                        <td>Final quality judgment</td>
                     </tr>
                     <tr>
-                        <td><strong style="color: #aaa;">Build Your Own</strong></td>
-                        <td>Skills (.claude/commands/), Agents (.claude/agents/), Worktrees</td>
-                        <td>"Create a skill that..."</td>
+                        <td><strong>6. Revise</strong></td>
+                        <td><code>/referee-response</code> + targeted agents</td>
+                        <td>Strategic decisions on what to address</td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </section>
+
+    <section>
+        <h2>Presentations: Beamer &amp; PPTX</h2>
+        <div class="card-grid">
+            <div class="card accent2">
+                <h4>/beamer-presentation</h4>
+                <p>
+                    "Create a 20-minute seminar talk from my paper."<br>
+                    Reads your LaTeX, extracts the story, generates clean Beamer with your tables and figures.
+                </p>
+            </div>
+            <div class="card accent3">
+                <h4>frontend-design Plugin</h4>
+                <p>
+                    Install via <code>/plugin</code> &rarr; <code>frontend-design</code>.<br>
+                    Generates stunning HTML presentations (like these slides). Export to PDF or share as a URL.
+                </p>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 0.4em;">
+            <p style="font-size: 0.7em; margin: 0;">
+                <strong>These slides</strong> were built entirely by Claude Code using the frontend-design plugin + reveal.js.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Productivity: /done &amp; Integrations</h2>
+        <div class="card-grid three-col">
+            <div class="card accent4">
+                <h4>/done</h4>
+                <p>
+                    End-of-session capture: decisions, open questions, follow-ups. Writes a handoff note so the next session picks up seamlessly.
+                </p>
+            </div>
+            <div class="card accent4">
+                <h4>Calendar &amp; Gmail</h4>
+                <p>
+                    Via MCP servers: schedule meetings, draft emails, search inbox. Claude becomes your PA.
+                </p>
+            </div>
+            <div class="card accent4">
+                <h4>/ai-weekly</h4>
+                <p>
+                    Automated AI news digest filtered for economists. 7 categories, saves to Dropbox weekly.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Teaching Applications</h2>
+        <div class="card-grid">
+            <div class="card">
+                <h4>Problem Sets</h4>
+                <p>"Generate a problem set on IV estimation. 5 questions, increasing difficulty. Include Stata exercises and solutions."</p>
+            </div>
+            <div class="card">
+                <h4>Student Code Review</h4>
+                <p>"Review this student's Stata code for the DiD assignment. Check correctness, style, and economic interpretation."</p>
+            </div>
+            <div class="card">
+                <h4>Interactive Tutorials</h4>
+                <p>"Build a guided RDD exercise — from visualization to estimation, step by step, with diagnostics."</p>
+            </div>
+            <div class="card">
+                <h4>Exam Generation</h4>
+                <p>"Generate a practice exam from my lecture notes. Create answer key with detailed grading rubric."</p>
+            </div>
+        </div>
+    </section>
+</section>
+
+<!-- ============================================ -->
+<!-- PART III: LIVE DEMOS (15-20 min) -->
+<!-- ============================================ -->
+<section>
+    <section class="section-slide">
+        <span class="section-number">06</span>
+        <h2>Live Demos</h2>
+        <p style="font-size: 0.85em; color: #888; max-width: 60%;">Let's try a few things together.</p>
+    </section>
+
+    <section>
+        <h2>Demo 1: Build a Skill <span class="tag live">LIVE</span></h2>
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="terminal-title">zsh — creating a skill from scratch</span>
+            </div>
+            <div class="terminal-body">
+                <span class="prompt">></span> <span class="cmd">Create a skill called /summary-stats that reads</span><br>
+                <span class="cmd">&nbsp; a dataset, computes summary statistics, and</span><br>
+                <span class="cmd">&nbsp; outputs a publication-ready LaTeX table.</span><br>
+                <span class="cmd">&nbsp; Save to .claude/commands/summary-stats.md</span><br><br>
+                <span class="success">&#10003; Skill created</span><br><br>
+                <span class="output"># Use it immediately</span><br>
+                <span class="prompt">></span> <span class="cmd">/summary-stats data/sample.csv</span>
+            </div>
+        </div>
+        <p style="font-size: 0.7em; color: #888;">
+            Create it &rarr; use it &rarr; iterate. Takes about 2 minutes.
+        </p>
+    </section>
+
+    <section>
+        <h2>Demo 2: Polish a Paragraph <span class="tag live">LIVE</span></h2>
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="terminal-title">zsh — academic writing</span>
+            </div>
+            <div class="terminal-body">
+                <span class="prompt">></span> <span class="cmd">/polish</span><br>
+                <span class="cmd">"We find that the fiscal multiplier is large and</span><br>
+                <span class="cmd">statistically significant. Our results are robust</span><br>
+                <span class="cmd">to many different specifications and we think this</span><br>
+                <span class="cmd">is an important contribution to the literature."</span>
+            </div>
+        </div>
+        <p style="font-size: 0.75em; margin-top: 0.4em;">Claude will:</p>
+        <ul style="font-size: 0.7em;">
+            <li>Diagnose: vague claims, weasel words, missing magnitudes</li>
+            <li>Rewrite with precision, specificity, and proper academic tone</li>
+            <li>Context-aware — locates the passage within your full paper</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Demo 3: Literature Review <span class="tag live">LIVE</span></h2>
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="terminal-title">zsh — literature search</span>
+            </div>
+            <div class="terminal-body">
+                <span class="prompt">></span> <span class="cmd">/lit-review fiscal multipliers in open economies</span><br><br>
+                <span class="output">Searching Google Scholar, NBER, CEPR, SSRN...</span><br>
+                <span class="output">Found 23 relevant papers</span><br><br>
+                <span class="success">&#10003; Review saved: notes/lit-review-fiscal.md</span><br>
+                <span class="output">Seminal: 8 | Recent: 12 | Working papers: 3</span><br>
+                <span class="output">Each with: finding, method, data, citation</span>
+            </div>
+        </div>
+        <p style="font-size: 0.7em; color: #888; margin-top: 0.4em;">
+            Uses Google Scholar MCP. Outputs structured markdown — ready for your LaTeX intro.
+        </p>
+    </section>
+
+    <section>
+        <h2>Demo 4: LaTeX Tables <span class="tag live">LIVE</span></h2>
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="terminal-title">zsh — generating tables</span>
+            </div>
+            <div class="terminal-body">
+                <span class="prompt">></span> <span class="cmd">/latex-tables</span><br>
+                <span class="cmd">Generate a regression table with 3 panels:</span><br>
+                <span class="cmd">OLS, reduced form, 2SLS. AER formatting.</span><br>
+                <span class="cmd">Data in analysis/results.csv</span><br><br>
+                <span class="success">&#10003; tables/main_results.tex</span><br>
+                <span class="output">3 panels | 6 columns | booktabs | Stars at 1/5/10%</span>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Demo 5: Build an Agent <span class="tag live">LIVE</span></h2>
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="terminal-title">zsh — creating a custom agent</span>
+            </div>
+            <div class="terminal-body">
+                <span class="prompt">></span> <span class="cmd">Create an agent called "code-reviewer" in</span><br>
+                <span class="cmd">&nbsp; .claude/agents/code-reviewer.md that reviews</span><br>
+                <span class="cmd">&nbsp; Stata and R code for common econometric mistakes:</span><br>
+                <span class="cmd">&nbsp; wrong clustering, missing FE, log of negatives,</span><br>
+                <span class="cmd">&nbsp; unbalanced panels treated as balanced.</span><br>
+                <span class="cmd">&nbsp; Restrict to Read and Grep tools only.</span><br><br>
+                <span class="success">&#10003; .claude/agents/code-reviewer.md created</span>
+            </div>
+        </div>
+        <p style="font-size: 0.7em; color: #888; margin-top: 0.4em;">
+            Key difference from skills: agents have <strong>restricted tools</strong> and a <strong>persistent persona</strong>.
+        </p>
+    </section>
+</section>
+
+<!-- ============================================ -->
+<!-- CLOSING -->
+<!-- ============================================ -->
+<section>
+    <section>
+        <h2>Key Takeaways</h2>
+        <ul style="font-size: 0.85em;">
+            <li><strong style="color: var(--accent4);">Git is the foundation</strong> — all AI work must be version-controlled</li>
+            <li><strong style="color: var(--accent);">CLAUDE.md is your leverage</strong> — teach the AI once, it compounds</li>
+            <li><strong style="color: var(--accent3);">Skills encode workflows</strong> — do it once, automate forever</li>
+            <li><strong style="color: var(--accent2);">Agents are autonomous workers</strong> — delegate and parallelize</li>
+            <li><strong style="color: var(--accent5);">Worktrees unlock scale</strong> — 3-5 agents working simultaneously</li>
+        </ul>
+        <div class="highlight-box" style="margin-top: 0.5em;">
+            <p style="font-size: 0.75em; margin: 0;">
+                <strong>The compound effect:</strong> Every skill you build, every CLAUDE.md rule you add, every agent you create — they accumulate. Your AI gets better at <em>your</em> research every day.
+            </p>
         </div>
     </section>
 
@@ -1027,41 +977,23 @@ Display a preview in the terminal.
                 <span class="prompt">$</span> <span class="cmd">git init && git add -A && git commit -m "initial"</span><br><br>
                 <span class="output"># 4. Let Claude create your CLAUDE.md</span><br>
                 <span class="prompt">$</span> <span class="cmd">claude "Create a CLAUDE.md for this project"</span><br><br>
-                <span class="output"># 5. Start working</span><br>
-                <span class="prompt">$</span> <span class="cmd">claude</span>
+                <span class="output"># 5. Build your first skill</span><br>
+                <span class="prompt">$</span> <span class="cmd">claude "Create a skill for my most repeated task"</span>
             </div>
-        </div>
-    </section>
-
-    <section>
-        <h2>Key Takeaways</h2>
-        <ul style="font-size: 0.85em;">
-            <li><strong style="color: var(--accent4);">Git is non-negotiable</strong> — all AI work must be version-controlled</li>
-            <li><strong style="color: var(--accent);">CLAUDE.md is your leverage</strong> — teach the AI once, it remembers forever</li>
-            <li><strong style="color: var(--accent3);">Skills encode workflows</strong> — do it once, automate forever</li>
-            <li><strong style="color: var(--accent2);">Agents are autonomous workers</strong> — delegate and parallelize</li>
-            <li><strong style="color: var(--accent5);">Worktrees unlock scale</strong> — 3-5 agents working simultaneously</li>
-        </ul>
-        <div class="highlight-box" style="margin-top: 0.6em;">
-            <p style="font-size: 0.75em; margin: 0;">
-                <strong>The compound effect:</strong> Every skill you build, every CLAUDE.md rule you add, every agent you create — they accumulate. Your AI gets better at your specific research every day.
-            </p>
         </div>
     </section>
 
     <section data-background-gradient="linear-gradient(135deg, #0a0a1a, #1a1030)">
         <div style="text-align: center;">
             <h2 style="font-size: 2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                Let's Build Together
+                Questions?
             </h2>
-            <p style="font-size: 0.85em; color: #888; margin-top: 0.5em;">
-                Open your terminal. Install Claude Code.<br>
-                Build your first skill right now.
+            <p style="font-size: 0.85em; color: #888; margin-top: 0.8em;">
+                Joao B. Duarte &nbsp;|&nbsp; Nova SBE
             </p>
             <div style="margin-top: 1.5em; font-size: 0.7em; color: #666;">
                 <p><code>npm install -g @anthropic-ai/claude-code</code></p>
-                <p style="margin-top: 0.5em;">Repo: <code>github.com/jbduarte/ai-for-economists</code></p>
-                <p style="margin-top: 0.3em;">Joao B. Duarte &nbsp;|&nbsp; Nova SBE</p>
+                <p style="margin-top: 0.4em;">Repo: <code>github.com/jbduarte/ai-for-economists</code></p>
             </div>
         </div>
     </section>
