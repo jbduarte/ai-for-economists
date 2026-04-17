@@ -266,6 +266,46 @@
 <!-- PART I: GENERAL PRINCIPLES (15-20 min) -->
 <!-- ============================================ -->
 
+<!-- === 0. WHERE TO RUN AI === -->
+<section>
+    <section>
+        <h2>Where to Run AI &mdash; Pick Your Surface</h2>
+        <p style="font-size: 0.65em; color: #888; margin: 0.2em 0;">Four ways to use Claude (and friends). Each has a sweet spot. You will probably use more than one.</p>
+        <table style="font-size: 0.55em; margin-top: 0.2em;">
+            <thead>
+                <tr><th>Surface</th><th>Best for</th><th>Limitation</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Claude Code CLI</strong><br><small style="color: var(--accent3);">Terminal / VS Code / PyCharm</small></td>
+                    <td>Full filesystem access. Git integration. Skills, agents, worktrees, hooks. <strong>The power user's tool.</strong></td>
+                    <td>Requires terminal comfort. PhD students: this is worth learning.</td>
+                </tr>
+                <tr>
+                    <td><strong>Cursor</strong><br><small style="color: var(--accent2);">IDE with built-in AI</small></td>
+                    <td>Visual code editing. See diffs inline. Tab-complete from AI. Great for writing code if you prefer a GUI over terminal.</td>
+                    <td>No skills/agents/worktrees. Less control. Uses its own Claude/GPT integration, not Claude Code.</td>
+                </tr>
+                <tr>
+                    <td><strong>Claude.ai / ChatGPT / Gemini</strong><br><small style="color: var(--accent4);">Web apps</small></td>
+                    <td>Exploration, brainstorming, learning. No setup. Paste a paragraph, get feedback. Talk through an idea.</td>
+                    <td>No filesystem. No git. No execution. Cannot touch your project files. Copy-paste workflow.</td>
+                </tr>
+                <tr>
+                    <td><strong>Codex / Gemini CLI</strong><br><small style="color: var(--accent5);">OpenAI Codex app, gemini CLI</small></td>
+                    <td>Second-opinion reviews. Cross-model validation. Run from inside Claude Code as external validators.</td>
+                    <td>Separate install + API key. Best used as companions to Claude, not replacements.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="highlight-box" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>My recommendation:</strong> Claude Code CLI as your daily driver (this whole workshop). Cursor if you prefer visual diffs. Claude.ai for quick questions. Codex/Gemini CLI for cross-model review.
+            </p>
+        </div>
+    </section>
+</section>
+
 <!-- === 1. CLAUDE CODE === -->
 <section>
     <section class="section-slide">
@@ -356,7 +396,51 @@
     </section>
 
     <section>
-        <h2>MCP — Connecting Claude to the World</h2>
+        <h2>Git in 90 Seconds &mdash; Your Undo Button</h2>
+        <p style="font-size: 0.65em; color: #888; margin: 0.2em 0;">Git takes snapshots of your project. Each commit is a save point you can return to. That is the whole game.</p>
+        <div class="card-grid three-col" style="margin-top: 0.3em;">
+            <div class="card accent3">
+                <h4>1. Save before AI</h4>
+                <p>
+                    <code>git commit -am "before AI"</code><br>
+                    Snapshot exists. Everything after is reversible.
+                </p>
+            </div>
+            <div class="card accent2">
+                <h4>2. See what AI did</h4>
+                <p>
+                    <code>git diff</code><br>
+                    Every line added and removed. The highest-leverage 30 seconds in research.
+                </p>
+            </div>
+            <div class="card accent4">
+                <h4>3. Keep or undo</h4>
+                <p>
+                    Good? <code>git commit</code>.<br>
+                    Bad? <code>git checkout .</code> &mdash; back to safe state. Zero damage.
+                </p>
+            </div>
+        </div>
+        <div class="terminal" style="margin-top: 0.3em;">
+            <div class="terminal-header">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="terminal-title">A realistic afternoon</span>
+            </div>
+            <div class="terminal-body">
+                <span class="prompt">$</span> <span class="cmd">git commit -am "before robustness checks"</span><br>
+                <span class="prompt">></span> <span class="cmd">Add 6 robustness checks to analysis/main.do</span><br>
+                <span class="success">&#10003; 6 specifications added</span><br>
+                <span class="prompt">$</span> <span class="cmd">git diff</span>  <span class="output"># one spec is wrong &mdash; wrong cluster variable</span><br>
+                <span class="prompt">$</span> <span class="cmd">git checkout analysis/main.do</span>  <span class="output"># undo, safe state</span><br>
+                <span class="prompt">></span> <span class="cmd">Redo, cluster by industry not firm. Explain why.</span>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>MCP &mdash; Connecting Claude to the World</h2>
         <p style="font-size: 0.7em; color: #888;">MCP (Model Context Protocol) lets Claude talk to external services. Like a USB-C port for AI.</p>
         <div style="text-align: center; margin: 0.5em 0;">
             <div style="display: inline-block;">
@@ -700,6 +784,46 @@ Display a preview in the terminal.
     </section>
 
     <section>
+        <h2>Economics Skills in Action</h2>
+        <p style="font-size: 0.65em; color: #888; margin: 0.2em 0;">Real skills I use daily. Each one encodes a multi-step workflow into a single command.</p>
+        <div class="card-grid">
+            <div class="card accent3">
+                <h4>/local-projections</h4>
+                <p>
+                    "Estimate IRFs of a 25bp monetary policy shock on GDP, inflation, unemployment. Lag selection via AIC. Newey-West SEs. Output: coefficient plot + LaTeX table."<br>
+                    Works in R (<code>lpirfs</code>) or Stata (<code>lpirf</code>).
+                </p>
+            </div>
+            <div class="card accent2">
+                <h4>/stata-regression</h4>
+                <p>
+                    "Run my IV specification in <code>analysis/main.do</code>. Add weak instrument diagnostics (Kleibergen-Paap, effective F). Cluster at state level. Export to LaTeX."<br>
+                    Uses <code>reghdfe</code> + <code>ivreg2</code> + <code>estout</code>.
+                </p>
+            </div>
+            <div class="card accent4">
+                <h4>/r-econometrics</h4>
+                <p>
+                    "Estimate a staggered DiD using Callaway-Sant'Anna (2021). Plot event-study coefficients with pre-trend test. Export figure as PDF."<br>
+                    Uses <code>did</code> + <code>fixest</code> + <code>ggplot2</code>.
+                </p>
+            </div>
+            <div class="card accent5">
+                <h4>/lit-review-assistant</h4>
+                <p>
+                    "Find 15 papers on the fiscal multiplier in open economies published 2018-2026. Cluster by methodology. Output: annotated BibTeX + 1-paragraph summary each."<br>
+                    Uses Google Scholar MCP. No fabricated cites.
+                </p>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>Every skill shown here exists in my repo.</strong> You can copy and adapt them. The point: if you do a workflow more than once, encode it.
+            </p>
+        </div>
+    </section>
+
+    <section>
         <h2>The Skill Creator <span class="tag purple">meta-skill</span></h2>
         <p style="font-size: 0.7em; color: #888;">Anthropic's official skill for building production-quality skills. Install from <code>anthropics/skills</code>.</p>
         <div style="display: flex; gap: 0.4em; align-items: center; justify-content: center; margin: 0.5em 0; font-size: 0.7em;">
@@ -986,10 +1110,360 @@ they are used in estimation.
     </section>
 </section>
 
-<!-- === 6. BUILT-IN POWER TOOLS === -->
+<!-- === 6. INTEGRATIONS === -->
 <section>
     <section class="section-slide">
         <span class="section-number">06</span>
+        <h2>Integrations</h2>
+        <p style="font-size: 0.85em; color: #888; max-width: 60%;">Principles, not plumbing. Why each tool is worth the setup friction.</p>
+    </section>
+
+    <section>
+        <h2>Why Integrations Matter</h2>
+        <p style="font-size: 0.8em;">Claude is only as good as the context it can touch. Every integration exists because <strong>one principle of research workflow is broken</strong> without it.</p>
+        <div class="card-grid">
+            <div class="card">
+                <h4>Git</h4>
+                <p><strong>Reversibility.</strong> Every AI edit has an undo. Without git, AI is unsafe.</p>
+            </div>
+            <div class="card accent3">
+                <h4>Overleaf</h4>
+                <p><strong>Plain-text source of truth.</strong> The paper must be editable by both humans and AI.</p>
+            </div>
+            <div class="card accent2">
+                <h4>Obsidian</h4>
+                <p><strong>Memory outside the context window.</strong> A durable vault beats prompt stuffing.</p>
+            </div>
+            <div class="card accent4">
+                <h4>Zotero</h4>
+                <p><strong>Citation integrity is a tooling problem,</strong> not a willpower problem.</p>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 0.4em;">
+            <p style="font-size: 0.7em; margin: 0;">
+                Skip the integration and you lose the principle. Set it up once; benefit every session.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Overleaf &mdash; Plain-Text Source of Truth</h2>
+        <p style="font-size: 0.7em; color: #888;">Claude edits <code>.tex</code> files locally. Overleaf renders them. The link is the <strong>Overleaf Git Bridge</strong>.</p>
+        <div class="flow-diagram">
+            <div class="flow-box" style="font-size: 0.85em;">Claude Code<br><small style="color: #888;">edits .tex locally</small></div>
+            <span style="color: var(--accent);">&harr;</span>
+            <div class="flow-box active" style="font-size: 0.85em;">Git repo<br><small style="color: #888;">source of truth</small></div>
+            <span style="color: var(--accent);">&harr;</span>
+            <div class="flow-box" style="font-size: 0.85em;">Overleaf<br><small style="color: #888;">renders + co-author view</small></div>
+        </div>
+        <div class="terminal" style="margin-top: 0.4em;">
+            <div class="terminal-header">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="terminal-title">Overleaf Git Bridge</span>
+            </div>
+            <div class="terminal-body">
+                <span class="prompt">$</span> <span class="cmd">git clone https://git.overleaf.com/&lt;PROJECT_ID&gt;</span><br>
+                <span class="prompt">$</span> <span class="cmd">cd project/ &amp;&amp; claude</span><br>
+                <span class="prompt">></span> <span class="cmd">Polish section 3 &mdash; add magnitudes and active voice</span><br>
+                <span class="success">&#10003; Edited sections/section_3.tex</span><br>
+                <span class="prompt">$</span> <span class="cmd">git commit -am "polish section 3" &amp;&amp; git push</span><br>
+                <span class="output"># Co-author opens Overleaf: changes are already there.</span>
+            </div>
+        </div>
+        <div class="highlight-box green" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>Principle:</strong> LaTeX + git is the only editing surface both you and Claude can touch. Overleaf becomes a viewer, not the source.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Obsidian &mdash; Memory Outside the Context Window</h2>
+        <p style="font-size: 0.7em; color: #888;">Your lit notes, seminar takeaways, half-baked ideas &mdash; a durable vault Claude can search, not re-derive.</p>
+        <div class="card-grid">
+            <div class="card accent2">
+                <h4>The Problem</h4>
+                <p>
+                    Context windows are finite. Pasting 200 papers' worth of notes into a prompt is wasteful and still will not fit.<br>
+                    Worse: every session starts with the same recap.
+                </p>
+            </div>
+            <div class="card accent3">
+                <h4>The Fix</h4>
+                <p>
+                    Point the <strong>filesystem MCP</strong> at your Obsidian vault. Claude reads only the notes relevant to the current question.<br>
+                    Each session draws from the vault on demand.
+                </p>
+            </div>
+        </div>
+        <div class="terminal" style="margin-top: 0.4em;">
+            <div class="terminal-header">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="terminal-title">Claude Code</span>
+            </div>
+            <div class="terminal-body">
+                <span class="prompt">$</span> <span class="cmd">claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem ~/vault</span><br>
+                <span class="prompt">></span> <span class="cmd">Find my notes on HANK models and summarize what I think is missing.</span><br>
+                <span class="success">&#10003; Reads ~/vault/Notes/HANK/*.md, cross-references, returns synthesis</span>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>Principle:</strong> Durable memory (markdown on disk) beats ephemeral memory (what fits in one prompt). Your vault compounds; your context window resets.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Zotero &mdash; Citation Integrity as Tooling</h2>
+        <p style="font-size: 0.7em; color: #888;">Fabricated citations are the #1 AI failure mode in academic writing. The fix is not asking Claude to be careful &mdash; it is giving Claude the real <code>.bib</code>.</p>
+        <div class="card-grid three-col">
+            <div class="card accent5">
+                <h4>Why AI fabricates</h4>
+                <p>
+                    Citations are plausible-looking strings. LLMs generate plausible strings.<br>
+                    Asking for "a citation on X" is asking for a hallucination.
+                </p>
+            </div>
+            <div class="card accent3">
+                <h4>The tool fix</h4>
+                <p>
+                    Export Zotero to <code>references.bib</code> and point Claude at it.<br>
+                    Every <code>\cite{}</code> must match a real key &mdash; or fail visibly at compile.
+                </p>
+            </div>
+            <div class="card accent2">
+                <h4>Plus PDFs &amp; annotations</h4>
+                <p>
+                    Zotero stores the full PDFs. Claude reads them via <code>/pdf-search</code> instead of inventing summaries.<br>
+                    Your highlights become AI context.
+                </p>
+            </div>
+        </div>
+        <div class="highlight-box orange" style="margin-top: 0.4em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>Principle:</strong> Make hallucination <em>impossible</em>, not inadvisable. Citation integrity is a tooling problem, not a willpower problem.
+            </p>
+        </div>
+        <div class="highlight-box" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>Companion: Google Scholar MCP.</strong> Zotero grounds the papers you already <em>have</em>. Google Scholar MCP grounds what you are <em>discovering</em> &mdash; Claude issues real Scholar queries and returns real hits, not memorised strings. Install with <code>claude mcp add google-scholar</code>. Every "find papers on X" becomes a real search, not a hallucination.
+            </p>
+        </div>
+    </section>
+</section>
+
+<!-- === 7. PRINCIPLES & GUARDRAILS === -->
+<section>
+    <section class="section-slide">
+        <span class="section-number">07</span>
+        <h2>Principles &amp; Guardrails</h2>
+        <p style="font-size: 0.85em; color: #888; max-width: 60%;">What to internalize. Tools change; these do not.</p>
+    </section>
+
+    <section>
+        <h2>Principle 1 &mdash; Compound Learning</h2>
+        <p style="font-size: 0.7em; color: #888;">Three files do the heavy lifting. Each session Claude gets smarter &mdash; not because the model improves, but because your system does.</p>
+        <div class="card-grid three-col">
+            <div class="card accent4">
+                <h4>CLAUDE.md</h4>
+                <p><strong>Who / what / how.</strong> Project context, conventions, coauthor rules. You write it.</p>
+            </div>
+            <div class="card accent2">
+                <h4>MEMORY.md</h4>
+                <p><strong>An index.</strong> Points to per-topic memory files: debugging, patterns, style. Claude maintains it.</p>
+            </div>
+            <div class="card accent3">
+                <h4>learnings/</h4>
+                <p><strong>Corrections.</strong> Each time you correct Claude, capture it as a durable learning. The mistake never recurs.</p>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 0.4em;">
+            <p style="font-size: 0.7em; margin: 0;">
+                <strong>Compound effect:</strong> the PhD student who writes one learning per week has a system that &mdash; six months in &mdash; no longer needs to be told to cluster standard errors, use <code>reghdfe</code>, or check balanced panels. It just does.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Principle 2 &mdash; Critic / Fixer Separation</h2>
+        <p style="font-size: 0.7em; color: #888;">Never let an agent review its own work. A critic scores (read-only); a fixer applies changes. Five rounds with explicit scoring beats one-shot prompting.</p>
+        <div style="text-align: center; margin: 0.5em 0;">
+            <div style="display: inline-flex; gap: 0.4em; align-items: center; justify-content: center; font-size: 0.72em;">
+                <div class="flow-box">Draft</div>
+                <span style="color: var(--accent);">&rarr;</span>
+                <div class="flow-box" style="border-color: var(--accent5);">Critic<br><small style="color: #888;">read-only, scores</small></div>
+                <span style="color: var(--accent);">&rarr;</span>
+                <div class="flow-box" style="border-color: var(--accent3);">Fixer<br><small style="color: #888;">applies corrections</small></div>
+                <span style="color: var(--accent);">&rarr;</span>
+                <div class="flow-box active">Score &ge; 95<br><small style="color: #888;">pass</small></div>
+            </div>
+        </div>
+        <ul style="font-size: 0.7em;">
+            <li>Round 1: writing-test-suite &mdash; rules, magnitudes, active voice</li>
+            <li>Round 2: devils-advocate &mdash; hostile reading</li>
+            <li>Round 3: precision-auditor &mdash; logic + facts</li>
+            <li>Round 4: ai-audit &mdash; detect AI-telltale phrases, voice</li>
+            <li>Round 5: final gate &mdash; score &ge; 95 or loop back</li>
+        </ul>
+        <div class="highlight-box green" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>Principle:</strong> Self-review has the same blind spots as self-writing. Separate the roles.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Principle 2b &mdash; Multi-Model Review</h2>
+        <p style="font-size: 0.65em; color: #888; margin: 0.2em 0;">Claude's 5-round loop catches a lot. But a <em>different</em> model catches what Claude systematically misses &mdash; because it has different blind spots.</p>
+        <div style="text-align: center; margin: 0.4em 0;">
+            <div style="display: inline-flex; gap: 0.4em; align-items: center; justify-content: center; font-size: 0.72em;">
+                <div class="flow-box">Claude<br><small style="color: #888;">writes + self-reviews</small></div>
+                <span style="color: var(--accent);">&rarr;</span>
+                <div class="flow-box" style="border-color: var(--accent3);">Gemini<br><small style="color: var(--accent3);">independent review</small></div>
+                <span style="color: var(--accent);">&rarr;</span>
+                <div class="flow-box" style="border-color: var(--accent4);">Codex / GPT<br><small style="color: var(--accent4);">second opinion</small></div>
+                <span style="color: var(--accent);">&rarr;</span>
+                <div class="flow-box active">You<br><small style="color: #888;">decide</small></div>
+            </div>
+        </div>
+        <div class="terminal" style="margin-top: 0.3em;">
+            <div class="terminal-header">
+                <div class="terminal-dot red"></div>
+                <div class="terminal-dot yellow"></div>
+                <div class="terminal-dot green"></div>
+                <span class="terminal-title">From inside Claude Code</span>
+            </div>
+            <div class="terminal-body">
+                <span class="prompt">$</span> <span class="cmd">gemini -p "Review this paper section for logic gaps" &lt; sections/intro.tex</span><br>
+                <span class="prompt">$</span> <span class="cmd">codex -q "Check this for fabricated citations" sections/intro.tex</span><br>
+                <span class="output"># Or wrap it in a script:</span><br>
+                <span class="prompt">$</span> <span class="cmd">bash gemini-validate.sh paper/main.tex prose</span><br>
+                <span class="success">&#10003; Gemini review saved to paper/main.tex.gemini-review.md</span>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>Why different models matter:</strong> Claude does not flag its own AI phrases (it wrote them). Gemini has different training biases. Codex catches different logic gaps. The disagreements between models are where the real issues hide.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Principle 3 &mdash; Honesty Rule</h2>
+        <div class="highlight-box orange">
+            <p style="font-size: 1.1em; margin: 0; text-align: center;">
+                <strong>TRUE &gt; "I don't know" &gt; FALSE.</strong>
+            </p>
+        </div>
+        <ul style="font-size: 0.75em; margin-top: 0.5em;">
+            <li><strong>Fabricated citation = auto-fail.</strong> Zero tolerance. One bad cite invalidates the draft.</li>
+            <li><strong>Fabricated number = auto-fail.</strong> Same principle extends to coefficients, signs, percentages.</li>
+            <li><strong>Verify against the raw log, not the summary.</strong> Claude writes "the effect is 2.3%." Open the regression output. Is it 2.3%?</li>
+            <li><strong>Mark what is unverified.</strong> If a claim cannot be traced to a source on disk, tag it <code>[UNVERIFIED]</code> until it can.</li>
+        </ul>
+        <div class="highlight-box" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                Add this rule to your global <code>~/.claude/CLAUDE.md</code>. It applies to every agent, every skill, every session &mdash; no exceptions.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Principle 4 &mdash; Durable State</h2>
+        <p style="font-size: 0.7em; color: #888;">Agents forget. Files do not. Keep your task list and project state in plain-text files Claude reads every session.</p>
+        <div class="card-grid">
+            <div class="card accent4">
+                <h4>TASKS.md</h4>
+                <p>
+                    Running list: priority, in-progress, completed, blocked.<br>
+                    Claude updates it as work completes &mdash; not at session end.<br>
+                    Same file readable by you, by cron, by any agent.
+                </p>
+            </div>
+            <div class="card accent2">
+                <h4>projects.json</h4>
+                <p>
+                    A structured registry: status, stage, deadline, coauthors per project.<br>
+                    Dashboards and weekly plans read from it.<br>
+                    One source of truth for "what am I working on?"
+                </p>
+            </div>
+        </div>
+        <div class="highlight-box green" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>Principle:</strong> If only Claude remembers it, it will be forgotten. Keep state in files you (and your agents) can re-read.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Principle 5 &mdash; Context Window Awareness <span class="tag blue">Markus Academy</span></h2>
+        <p style="font-size: 0.7em; color: #888;">Goldsmith-Pinkham (Markus Academy, 29 Mar 2026): context-window management is the binding constraint on productivity.</p>
+        <div class="card-grid">
+            <div class="card">
+                <h4>Local, not web</h4>
+                <p>Run Claude where it can touch files &mdash; IDE or terminal. Pasting code into a chat box loses filesystem, git history, and privacy.</p>
+            </div>
+            <div class="card accent3">
+                <h4>Plan, then iterate</h4>
+                <p>Do not one-shot. Break into steps: source &rarr; clean &rarr; structure &rarr; visualize. Iterate on what fails; do not restart.</p>
+            </div>
+            <div class="card accent2">
+                <h4>Compress idea-to-first-result</h4>
+                <p>Empty folder &rarr; scrape (SEC EDGAR, Census) &rarr; DuckDB &rarr; first chart. What used to take a week of RA time now takes an afternoon.</p>
+            </div>
+            <div class="card accent4">
+                <h4>Watch the fuel gauge</h4>
+                <p>Use <code>/context</code> to see window usage. <code>/compact</code> with focus ("keep the regression setup") before you hit the ceiling.</p>
+            </div>
+        </div>
+        <div style="font-size: 0.55em; color: #667; margin-top: 0.4em; text-align: right;">
+            Source: <a href="https://markusacademy.substack.com/p/claude-code-for-applied-economists" style="color: #778;">markusacademy.substack.com/p/claude-code-for-applied-economists</a>
+        </div>
+    </section>
+
+    <section>
+        <h2>Risks &amp; Guardrails</h2>
+        <p style="font-size: 0.7em; color: #888;">Non-negotiable for PhD students using AI on research. Break one and you damage something expensive &mdash; data, reputation, or co-author trust.</p>
+        <table style="font-size: 0.62em;">
+            <thead>
+                <tr><th>Risk</th><th>Guardrail</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Privacy / confidentiality</strong><br><small style="color: #888;">Unpublished data, co-author drafts, referee reports, proprietary datasets.</small></td>
+                    <td>Run Claude <strong>locally</strong>, not web chat with pasted text. Prototype on <strong>dummy data</strong>; plug in real data only once the pipeline is frozen.</td>
+                </tr>
+                <tr>
+                    <td><strong>Reproducibility</strong><br><small style="color: #888;">Code that ran once is not research.</small></td>
+                    <td>Treat AI scripts as code from a junior RA: <strong>version-controlled, re-run from scratch, outputs written to files that can be diffed</strong>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Verification</strong><br><small style="color: #888;">AI paragraphs lie about numbers.</small></td>
+                    <td>Every coefficient, sign, percentage traces to a file on disk. <strong>Verify against the raw log, not the AI's summary.</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Co-author coordination</strong><br><small style="color: #888;">Uncanny-valley edits confuse collaborators.</small></td>
+                    <td>Mark AI-assisted edits explicitly: commit tags, LaTeX comments, or a running note in the project <code>CLAUDE.md</code>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Velocity vs. skepticism</strong><br><small style="color: #888;">50 tables in 5 minutes is not 50&times; the insight.</small></td>
+                    <td>High-velocity output demands high-velocity scrutiny. If you cannot read all 50 tables, you should not generate all 50.</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</section>
+
+<!-- === 8. BUILT-IN POWER TOOLS === -->
+<section>
+    <section class="section-slide">
+        <span class="section-number">08</span>
         <h2>Built-in Power Tools</h2>
         <p style="font-size: 0.85em; color: #888; max-width: 60%;">Native commands that ship with Claude Code. No setup needed.</p>
     </section>
@@ -1129,46 +1603,39 @@ they are used in estimation.
     </section>
 
     <section>
-        <h2>Hooks — Automatic Triggers</h2>
-        <p style="font-size: 0.7em; color: #888;">Shell commands that run automatically at specific points in Claude's workflow. You define the rules; they fire every time.</p>
-        <div class="card-grid three-col">
-            <div class="card">
-                <h4>Before a tool runs</h4>
-                <p>
-                    <strong>PreToolUse</strong><br>
-                    Block writes to sensitive files.<br>
-                    Validate before Claude edits.
-                </p>
-            </div>
-            <div class="card accent3">
-                <h4>After a tool runs</h4>
-                <p>
-                    <strong>PostToolUse</strong><br>
-                    Auto-format code after every edit.<br>
-                    Run linter after every file change.
-                </p>
-            </div>
-            <div class="card accent4">
-                <h4>Session events</h4>
-                <p>
-                    <strong>SessionStart</strong> — load context<br>
-                    <strong>Stop</strong> — notify when done<br>
-                    <strong>UserPromptSubmit</strong> — validate input
-                </p>
-            </div>
-        </div>
-        <div class="terminal" style="margin-top: 0.4em;">
-            <div class="terminal-header">
-                <div class="terminal-dot red"></div>
-                <div class="terminal-dot yellow"></div>
-                <div class="terminal-dot green"></div>
-                <span class="terminal-title">Claude Code</span>
-            </div>
-            <div class="terminal-body">
-                <span class="output"># Configure hooks interactively:</span><br>
-                <span class="prompt">></span> <span class="cmd">/hooks</span><br><br>
-                <span class="output"># Or add to .claude/settings.json for the whole team</span>
-            </div>
+        <h2>Hooks &mdash; Quality Gates That Run Themselves</h2>
+        <p style="font-size: 0.65em; color: #888; margin: 0.2em 0;">A hook is a shell command Claude runs <strong>automatically</strong> at specific moments. This is how you enforce quality without remembering to.</p>
+        <table style="font-size: 0.58em; margin-top: 0.2em;">
+            <thead>
+                <tr><th>Hook</th><th>Example quality gate</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>SessionStart</code></td>
+                    <td>Load <code>TASKS.md</code>, surface this week's deadlines, re-inject the honesty rule.</td>
+                </tr>
+                <tr>
+                    <td><code>UserPromptSubmit</code></td>
+                    <td>Inject "Never fabricate citations, data, or results" on every message.</td>
+                </tr>
+                <tr>
+                    <td><code>PreToolUse</code></td>
+                    <td>Block writes to <code>data/raw/</code>. Refuse <code>rm -rf</code>. Require a commit before edits.</td>
+                </tr>
+                <tr>
+                    <td><code>PostToolUse</code></td>
+                    <td>Auto-format after Python edits. Recompile LaTeX after <code>.tex</code> edits.</td>
+                </tr>
+                <tr>
+                    <td><code>Stop</code></td>
+                    <td>Run the test suite, update <code>TASKS.md</code>, ping a macOS notification.</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="highlight-box green" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>Why this matters for research:</strong> a quality rule only works if it fires <em>every time</em>. Hooks turn "I should remember to" into "it happens automatically." Configure with <code>/hooks</code>, or commit <code>.claude/settings.json</code> to share the gates with co-authors.
+            </p>
         </div>
     </section>
 
@@ -1229,9 +1696,9 @@ they are used in estimation.
 <!-- ============================================ -->
 <section>
     <section class="section-slide">
-        <span class="section-number">07</span>
+        <span class="section-number">09</span>
         <h2>My Workflow</h2>
-        <p style="font-size: 0.85em; color: #888; max-width: 60%;">30+ skills and agents across 7 categories.</p>
+        <p style="font-size: 0.85em; color: #888; max-width: 60%;">30+ skills and agents across 7 categories. When to use what.</p>
     </section>
 
     <section>
@@ -1411,6 +1878,43 @@ they are used in estimation.
     </section>
 
     <section>
+        <h2>The Review Landscape &mdash; From Free to $50</h2>
+        <p style="font-size: 0.65em; color: #888; margin: 0.2em 0;">Use at least two before submitting. Different tools catch different things.</p>
+        <table style="font-size: 0.58em; margin-top: 0.2em;">
+            <thead>
+                <tr><th>Tool</th><th>Price</th><th>Best for</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>paperreview.ai</strong><br><small style="color: #888;">Andrew Ng / Stanford</small></td>
+                    <td>Free</td>
+                    <td>Quick 7-dimension score. arXiv-grounded. Weaker for econ than CS.</td>
+                </tr>
+                <tr>
+                    <td><strong>Coarse</strong><br><small style="color: #888;">David van Dijcke / coarse.ink</small></td>
+                    <td>~$1</td>
+                    <td>20+ detailed comments. Open source. You pay API cost directly (OpenRouter). Philosophy: review should not be monetized.</td>
+                </tr>
+                <tr>
+                    <td><strong>Reviewer3</strong><br><small style="color: #888;">reviewer3.com</small></td>
+                    <td>1 free, then $50</td>
+                    <td>Multiple specialist AI reviewers. PDF-anchored feedback. ICLR arena benchmark.</td>
+                </tr>
+                <tr>
+                    <td><strong>Refine.ink</strong><br><small style="color: #888;">Ben Golub / Northwestern</small></td>
+                    <td>$50</td>
+                    <td>Deepest review. Catches sign errors in equations. Cochrane: "Top 5% of reports in 40 years."</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="highlight-box green" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>Strategy:</strong> paperreview.ai (free) for a quick scan &rarr; Coarse (~$1) for detailed comments &rarr; Refine ($50) before the final submission. Total cost: ~$51 for 3 independent AI reviews.
+            </p>
+        </div>
+    </section>
+
+    <section>
         <h2>Implication: Raise Your Own Bar First</h2>
         <div class="highlight-box pink" style="margin-top: 0.3em;">
             <p style="font-size: 0.75em; margin: 0;">
@@ -1508,13 +2012,119 @@ they are used in estimation.
             </div>
             <div class="card">
                 <h4>Interactive Tutorials</h4>
-                <p>"Build a guided RDD exercise — from visualization to estimation, step by step, with diagnostics."</p>
+                <p>"Build a guided RDD exercise &mdash; from visualization to estimation, step by step, with diagnostics."</p>
             </div>
             <div class="card">
                 <h4>Exam Generation</h4>
                 <p>"Generate a practice exam from my lecture notes. Create answer key with detailed grading rubric."</p>
             </div>
         </div>
+    </section>
+
+    <section>
+        <h2>Claude for <em>Your</em> Learning &mdash; Three Modes</h2>
+        <p style="font-size: 0.7em; color: #888;">The use case most PhD students miss. Not teaching students &mdash; learning, yourself.</p>
+        <div class="card-grid three-col">
+            <div class="card accent3">
+                <h4>Private Tutor on Any Topic</h4>
+                <p>
+                    "I have 2 hours. Teach me the continuous-time HJB/KFE approach from Achdou et al. (2022). Use the paper's notation. Quiz me every 10 minutes."<br>
+                    Grounded on the PDF via <code>/pdf-search</code> &mdash; no invented math.
+                </p>
+            </div>
+            <div class="card accent2">
+                <h4>Coding Partner on Replication</h4>
+                <p>
+                    "Walk me through Local Projections on this dataset. Explain each step before you write it. Stop when I ask why."<br>
+                    You learn the method by typing, not copy-pasting.
+                </p>
+            </div>
+            <div class="card accent5">
+                <h4>Hostile Examiner</h4>
+                <p>
+                    <code>/devils-advocate</code> on your own understanding.<br>
+                    "Drill me on the identifying assumption in Ottonello-Winberry (2020). Be hostile. I want flyout-grade pressure."
+                </p>
+            </div>
+        </div>
+        <div class="highlight-box orange" style="margin-top: 0.4em;">
+            <p style="font-size: 0.7em; margin: 0;">
+                <strong>The test:</strong> if you cannot defend on a job-market flyout the math that AI wrote into your paper, you failed the exercise &mdash; regardless of whether the paper got written. Use AI to <em>steepen</em> your learning curve, not to skip it.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Talk With the Greats <span class="tag purple">grounded personas</span></h2>
+        <p style="font-size: 0.7em; color: #888;">Not a parlour trick. Point Claude at the actual writing and let it respond in that voice, that framework, that set of priors. You learn a tradition by conversing with it.</p>
+        <div class="card-grid">
+            <div class="card">
+                <h4>Friedman vs. Keynes on a Shock</h4>
+                <p>
+                    "Read Friedman (1968 AEA) and <em>General Theory</em> ch.13&ndash;15 from the PDFs in <code>~/vault/Classics/</code>.<br>
+                    Now respond to the 2020 fiscal stimulus from each perspective in turn. I will moderate."
+                </p>
+            </div>
+            <div class="card accent3">
+                <h4>Steelman Lucas on the Phillips Curve</h4>
+                <p>
+                    "Use Lucas (1972, 1976). I will argue the curve is stable. Attack my argument using <em>only</em> Lucas's own reasoning &mdash; no anachronisms, no post-1980 evidence."
+                </p>
+            </div>
+            <div class="card accent2">
+                <h4>Seminar Q&amp;A Rehearsal</h4>
+                <p>
+                    "You are the most hostile referee on my paper <code>drafts/jpe_r1.pdf</code>. Ask the 5 questions you would ask at a seminar. Wait for my answer before the next one."
+                </p>
+            </div>
+            <div class="card accent4">
+                <h4>Reading-Group Facilitator</h4>
+                <p>
+                    "Pick 3 genuine disagreements between Hayek (1945) and Stiglitz-Greenwald (1986) on information. Make each case in turn &mdash; then let me decide who is right."
+                </p>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top: 0.3em;">
+            <p style="font-size: 0.65em; margin: 0;">
+                <strong>Why grounding matters:</strong> without a PDF, "talk to Friedman" is an impression. With Friedman's actual papers in the context, it is Socratic dialogue with a tradition. Combine with Zotero + <code>/pdf-search</code>; refuse quotes that are not in the source.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2>When to Use What</h2>
+        <p style="font-size: 0.65em; color: #888; margin: 0.2em 0;">Match the tool to the task, not the other way round.</p>
+        <table style="font-size: 0.6em; margin-top: 0.2em;">
+            <thead>
+                <tr><th>I need to&hellip;</th><th>Reach for</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Explore an idea</strong><br><small style="color: #888;">No code yet, still thinking.</small></td>
+                    <td>Claude web + <strong>Plan mode</strong>. No filesystem, no execution. Just dialogue.</td>
+                </tr>
+                <tr>
+                    <td><strong>Write a paper section</strong><br><small style="color: #888;">LaTeX, draft or revision.</small></td>
+                    <td>Claude Code + project <code>CLAUDE.md</code> + <strong>Overleaf Git Bridge</strong> + <code>/polish</code>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Run analysis on new data</strong><br><small style="color: #888;">Clean, estimate, tabulate.</small></td>
+                    <td><code>/stata-regression</code> or <code>/r-econometrics</code> + <strong>data-validator</strong> + <code>/latex-tables</code>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Review your own paper</strong><br><small style="color: #888;">Before submission.</small></td>
+                    <td><code>/review-board</code> + <code>/devils-advocate</code> + <code>/ai-audit</code>. Critic/fixer separation enforced.</td>
+                </tr>
+                <tr>
+                    <td><strong>Review someone else's paper</strong><br><small style="color: #888;">Referee report or seminar prep.</small></td>
+                    <td><code>/pdf-search</code> + <code>/precision-auditor</code> + <code>/devils-advocate</code>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Learn a new method</strong><br><small style="color: #888;">From a paper you need to understand.</small></td>
+                    <td>Socratic tutor + PDF + <code>/pdf-search</code> + quiz yourself with <code>/devils-advocate</code>.</td>
+                </tr>
+            </tbody>
+        </table>
     </section>
 </section>
 
@@ -1523,7 +2133,7 @@ they are used in estimation.
 <!-- ============================================ -->
 <section>
     <section class="section-slide">
-        <span class="section-number">08</span>
+        <span class="section-number">10</span>
         <h2>Live Demos</h2>
         <p style="font-size: 0.85em; color: #888; max-width: 60%;">Watch it happen. Suggest what to try.</p>
     </section>

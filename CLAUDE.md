@@ -9,18 +9,35 @@
 - **Approach**: interactive — live demos marked with [LIVE] tags throughout
 - **PDF export**: `npx decktape reveal slides/index.html slides.pdf`
 
-## Workshop Structure (45 min)
+## Workshop Structure (45 min — PhD audience)
 
-| Section | Time | Content | Live Demo |
-|---------|------|---------|-----------|
-| **Opening demo** | 3 min | Claude processes a CSV → LaTeX table | Yes |
-| **01 Foundation** | 5 min | CLAUDE.md + Git basics | — |
-| **02 Productivity** | 5 min | /done, calendar/Gmail MCP, /ai-weekly | /done |
-| **03 Writing** | 7 min | /polish, /intro-abstract-writer, /manuscript-review | /polish |
-| **04 Data & Analysis** | 7 min | /latex-tables, /stata-regression, data-validator agent | /latex-tables |
-| **05 Literature** | 5 min | /lit-review, /research-ideation, Google Scholar MCP | /lit-review |
-| **06 Presentations** | 5 min | /beamer-presentation, frontend-design plugin, PPTX | — |
-| **07 Build Your Own** | 8 min | Skills vs agents, anatomy, worktrees, swarms | Build a skill live |
+Slide deck `slides/index.html` now has 10 sections plus opening/closing. Principles-first pedagogy: PhD students must internalize the *why* (compound learning, critic/fixer separation, honesty rule, citation integrity as tooling) before the *what* (slash commands, skills, agents).
+
+| Section | Slides | Focus |
+|---------|--------|-------|
+| **Title + Access** | 2 | Claude Pro/Max setup, one-command install |
+| **01 Claude Code** | 5 | Agentic AI, CLAUDE.md, git, MCP |
+| **02 Memory & Plan Mode** | 6 | 3-layer memory, learning loop, "prompt engineering is dead" |
+| **03 Skills** | 5 | What/how/anatomy, skill-creator meta-skill |
+| **04 Agents** | 6 | Skills vs agents, subagents, auto-agents, teams |
+| **05 Worktrees** | 3 | Parallel isolation, Boris Cherny quote |
+| **06 Integrations** [NEW] | 5 | Git/Overleaf/Obsidian/Zotero — principles, not plumbing |
+| **07 Principles & Guardrails** [NEW] | 7 | Compound learning, critic/fixer, honesty, durable state, Markus Academy, risks |
+| **08 Built-in Power Tools** | 6 | /init, /memory, /batch, /simplify, hooks, plugins |
+| **09 My Workflow** | 10 | Full picture, skills map, pipeline, stress-test loop, learning modes, when-to-use-what |
+| **10 Live Demos** | 8 | Data→table, build skill, polish, build agent, review-board, teaching app |
+| **Closing** | 2 | Key takeaways, Q&A |
+
+### Live demos (run from this repo)
+- `/polish` — use `.claude/commands/polish.md`
+- `/review-board` — use `.claude/commands/review-board.md`
+- Data→LaTeX table — `data/country_gdp_panel.csv`
+- Build skill — create `.claude/commands/country-report.md` live
+- Build agent — reference `examples/agents/data-validator.md`
+- Solow app — one prompt, Chart.js single file
+
+### External reference (cited on slide 07.5)
+- Goldsmith-Pinkham, Markus Academy, "Claude Code for Applied Economists" (29 Mar 2026): https://markusacademy.substack.com/p/claude-code-for-applied-economists
 
 ## Key References
 - Boris Cherny guide: https://howborisusesclaudecode.com
